@@ -12,30 +12,25 @@ interface SensitivityResult {
   mira4x: number;
   miraAwm: number;
   olhadinha: number;
-  tiroCima: number;
   Dpi: number;
 }
 
+// Função que gera DPI fora da lógica principal
+const generateDPI = (level: SensitivityLevel): number => {
+  if (level === "baixa") return Math.floor(500 + Math.random() * (596 - 500));
+  if (level === "media") return Math.floor(596 + Math.random() * (720 - 596));
+  return Math.floor(720 + Math.random() * (960 - 720));
+};
+
 const generateSensitivity = (level: SensitivityLevel): SensitivityResult => {
-  // Valores normais (mantidos)
-  const generalRanges = {
+  const ranges = {
     baixa: { min: 150, max: 175 },
     media: { min: 175, max: 185 },
     alta: { min: 185, max: 200 },
   };
 
-  // DPI com faixas especiais
-  const dpiRanges = {
-    baixa: { min: 500, max: 596 },
-    media: { min: 596, max: 720 },
-    alta: { min: 720, max: 960 },
-  };
-
-  const { min, max } = generalRanges[level];
-  const { min: dpiMin, max: dpiMax } = dpiRanges[level];
-
+  const { min, max } = ranges[level];
   const random = () => Math.floor(min + Math.random() * (max - min));
-  const randomDpi = () => Math.floor(dpiMin + Math.random() * (dpiMax - dpiMin));
 
   return {
     geral: random(),
@@ -44,8 +39,7 @@ const generateSensitivity = (level: SensitivityLevel): SensitivityResult => {
     mira4x: random(),
     miraAwm: random(),
     olhadinha: random(),
-    tiroCima: random(),
-    Dpi: randomDpi(),
+    Dpi: generateDPI(level), // DPI ALTERADA E INDEPENDENTE
   };
 };
 
@@ -62,6 +56,11 @@ export const SensitivityGenerator = () => {
       setIsGenerating(false);
       toast.success("Sensibilidade gerada com sucesso!");
     }, 1500);
+  };
+
+  const handleLevelChange = (newLevel: SensitivityLevel) => {
+    setLevel(newLevel);
+    setResult(null); // 🔥 limpa a sensibilidade antiga automaticamente
   };
 
   return (
@@ -83,7 +82,7 @@ export const SensitivityGenerator = () => {
         ].map((item) => (
           <button
             key={item.key}
-            onClick={() => setLevel(item.key as SensitivityLevel)}
+            onClick={() => handleLevelChange(item.key as SensitivityLevel)}
             className={cn(
               "flex-1 py-2.5 px-4 rounded-lg font-medium text-sm transition-all duration-300",
               level === item.key
@@ -107,7 +106,6 @@ export const SensitivityGenerator = () => {
       {result && (
         <div className="mt-4 space-y-2">
           <div className="card-gaming-inner rounded-lg p-3 space-y-2">
-
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Geral:</span>
               <span className="text-primary font-semibold">{result.geral}</span>
@@ -115,7 +113,9 @@ export const SensitivityGenerator = () => {
 
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Ponto Vermelho:</span>
-              <span className="text-primary font-semibold">{result.pontoVermelho}</span>
+              <span className="text-primary font-semibold">
+                {result.pontoVermelho}
+              </span>
             </div>
 
             <div className="flex justify-between text-sm">
@@ -138,16 +138,11 @@ export const SensitivityGenerator = () => {
               <span className="text-primary font-semibold">{result.olhadinha}</span>
             </div>
 
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Tiro p/ Cima:</span>
-              <span className="text-primary font-semibold">{result.tiroCima}</span>
-            </div>
-
+            {/* DPI aparece separada como você pediu */}
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">DPI:</span>
               <span className="text-primary font-semibold">{result.Dpi}</span>
             </div>
-
           </div>
         </div>
       )}

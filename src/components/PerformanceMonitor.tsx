@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   ResponsiveContainer,
@@ -17,24 +15,31 @@ interface DataPoint {
   gpu: number;
 }
 
-const generateRandomData = (baseTime: number): DataPoint => {
+interface PerformanceMonitorProps {
+  maxFPS: 60 | 120;
+}
+
+const generateRandomData = (baseTime: number, maxFPS: number): DataPoint => {
   const minutes = Math.floor(baseTime / 60);
   const seconds = baseTime % 60;
   const time = `${minutes}:${seconds.toString().padStart(2, "0")}`;
   
+  const fpsBase = maxFPS === 60 ? 45 : 90;
+  const fpsVariation = maxFPS === 60 ? 15 : 30;
+  
   return {
     time,
-    fps: Math.floor(40 + Math.random() * 30),
+    fps: Math.min(maxFPS, Math.floor(fpsBase + Math.random() * fpsVariation)),
     cpu: Math.floor(35 + Math.random() * 25),
     gpu: Math.floor(40 + Math.random() * 35),
   };
 };
 
-export const PerformanceMonitor = () => {
+export const PerformanceMonitor = ({ maxFPS }: PerformanceMonitorProps) => {
   const [data, setData] = useState<DataPoint[]>(() => {
     const initialData: DataPoint[] = [];
     for (let i = 0; i < 12; i++) {
-      initialData.push(generateRandomData(1680 + i * 2));
+      initialData.push(generateRandomData(1680 + i * 2, maxFPS));
     }
     return initialData;
   });
@@ -42,21 +47,33 @@ export const PerformanceMonitor = () => {
   const [baseTime, setBaseTime] = useState(1704);
 
   useEffect(() => {
+    // Reset data when maxFPS changes
+    const newData: DataPoint[] = [];
+    for (let i = 0; i < 12; i++) {
+      newData.push(generateRandomData(baseTime - 24 + i * 2, maxFPS));
+    }
+    setData(newData);
+  }, [maxFPS]);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       setData((prevData) => {
-        const newData = [...prevData.slice(1), generateRandomData(baseTime)];
+        const newData = [...prevData.slice(1), generateRandomData(baseTime, maxFPS)];
         return newData;
       });
       setBaseTime((prev) => prev + 2);
     }, 1500);
 
     return () => clearInterval(interval);
-  }, [baseTime]);
+  }, [baseTime, maxFPS]);
+
+  const yAxisMax = maxFPS === 60 ? 80 : 140;
+  const yAxisTicks = maxFPS === 60 ? [0, 20, 40, 60, 80] : [0, 30, 60, 90, 120, 140];
 
   return (
     <div
       className="card-gaming rounded-xl p-4 opacity-0 animate-slide-up"
-      style={{ animationDelay: "400ms", animationFillMode: "forwards" }}
+      style={{ animationDelay: "100ms", animationFillMode: "forwards" }}
     >
       <h3 className="section-title font-semibold text-base mb-4">
         Monitor de Performance
@@ -81,23 +98,23 @@ export const PerformanceMonitor = () => {
             </defs>
             <XAxis
               dataKey="time"
-              stroke="hsl(270, 10%, 40%)"
+              stroke="hsl(0, 0%, 40%)"
               fontSize={10}
               tickLine={false}
               axisLine={false}
             />
             <YAxis
-              stroke="hsl(270, 10%, 40%)"
+              stroke="hsl(0, 0%, 40%)"
               fontSize={10}
               tickLine={false}
               axisLine={false}
-              domain={[0, 80]}
-              ticks={[0, 20, 40, 60, 80]}
+              domain={[0, yAxisMax]}
+              ticks={yAxisTicks}
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: "hsl(270, 40%, 15%)",
-                border: "1px solid hsl(280, 50%, 35%)",
+                backgroundColor: "hsl(0, 0%, 10%)",
+                border: "1px solid hsl(0, 0%, 25%)",
                 borderRadius: "8px",
                 fontSize: "12px",
               }}

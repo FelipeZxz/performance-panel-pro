@@ -5,13 +5,47 @@ import { toast } from "sonner";
 
 type SensitivityLevel = "baixa" | "media" | "alta";
 
+interface SensitivityResult {
+  geral: number;
+  pontoVermelho: number;
+  mira2x: number;
+  mira4x: number;
+  miraAwm: number;
+  olhadinha: number;
+  tiroCima: number;
+}
+
+const generateSensitivity = (level: SensitivityLevel): SensitivityResult => {
+  const ranges = {
+    baixa: { min: 10, max: 40 },
+    media: { min: 40, max: 70 },
+    alta: { min: 70, max: 100 },
+  };
+
+  const { min, max } = ranges[level];
+  const random = () => Math.floor(min + Math.random() * (max - min));
+
+  return {
+    geral: random(),
+    pontoVermelho: random(),
+    mira2x: random(),
+    mira4x: random(),
+    miraAwm: random(),
+    olhadinha: random(),
+    tiroCima: random(),
+  };
+};
+
 export const SensitivityGenerator = () => {
   const [level, setLevel] = useState<SensitivityLevel>("media");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [result, setResult] = useState<SensitivityResult | null>(null);
 
   const handleGenerate = () => {
     setIsGenerating(true);
     setTimeout(() => {
+      const sensitivity = generateSensitivity(level);
+      setResult(sensitivity);
       setIsGenerating(false);
       toast.success("Sensibilidade gerada com sucesso!");
     }, 1500);
@@ -56,6 +90,41 @@ export const SensitivityGenerator = () => {
       >
         {isGenerating ? "Gerando..." : "Gerar Sensibilidade"}
       </Button>
+
+      {result && (
+        <div className="mt-4 space-y-2">
+          <div className="card-gaming-inner rounded-lg p-3 space-y-2">
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Geral:</span>
+              <span className="text-primary font-semibold">{result.geral}</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Ponto Vermelho:</span>
+              <span className="text-primary font-semibold">{result.pontoVermelho}</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Mira 2x:</span>
+              <span className="text-primary font-semibold">{result.mira2x}</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Mira 4x:</span>
+              <span className="text-primary font-semibold">{result.mira4x}</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Mira AWM:</span>
+              <span className="text-primary font-semibold">{result.miraAwm}</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Olhadinha:</span>
+              <span className="text-primary font-semibold">{result.olhadinha}</span>
+            </div>
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">Tiro p/ Cima:</span>
+              <span className="text-primary font-semibold">{result.tiroCima}</span>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 export const FFOptimizer = () => {
-  const [isOptimized, setIsOptimized] = useState(true);
+  const [isOptimized, setIsOptimized] = useState(false);
 
   const handleToggle = () => {
     setIsOptimized(!isOptimized);
@@ -28,9 +28,12 @@ export const FFOptimizer = () => {
         </div>
         <Button
           onClick={handleToggle}
-          variant="destructive"
           size="sm"
-          className="bg-red-600 hover:bg-red-700 text-white"
+          className={
+            isOptimized
+              ? "bg-destructive hover:bg-destructive/90 text-destructive-foreground"
+              : "bg-success hover:bg-success/90 text-success-foreground"
+          }
         >
           {isOptimized ? "Desativar" : "Ativar"}
         </Button>

@@ -24,8 +24,6 @@ export const DashboardPanel = ({ onLogout }: DashboardPanelProps) => {
           <h1 className="font-display text-2xl font-bold tracking-wide bg-gradient-to-r from-red-600 to-red-400 bg-clip-text text-transparent">
             SnTx Painel
           </h1>
-          <p
-
         </div>
 
         {/* Performance Monitor */}
@@ -62,7 +60,7 @@ export const DashboardPanel = ({ onLogout }: DashboardPanelProps) => {
         >
           <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
           <span className="text-foreground/90 text-sm font-medium">
-            Acesso autorizado! Bem-vindo ao SnTx
+            Acesso autorizado! Bem-vindo ao SnTx Painel
           </span>
         </div>
       </div>

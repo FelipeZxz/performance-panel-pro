@@ -23,7 +23,7 @@ export const DashboardPanel = ({ onLogout }: DashboardPanelProps) => {
           style={{ animationFillMode: "forwards" }}
         >
           <h1 className="font-display text-2xl font-bold tracking-wide bg-gradient-to-r from-red-600 to-red-400 bg-clip-text text-transparent">
-            Auxílio De Mira SnTx
+            SnTx Painel
           </h1>
         </div>
 

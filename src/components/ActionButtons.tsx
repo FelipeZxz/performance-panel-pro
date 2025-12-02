@@ -2,7 +2,6 @@ import { useState } from "react";
 import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { toast } from "sonner";
 
 interface ActionButtonsProps {
   onLogout: () => void;
@@ -10,14 +9,18 @@ interface ActionButtonsProps {
 
 export const ActionButtons = ({ onLogout }: ActionButtonsProps) => {
   const [open, setOpen] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const handleSelect = (type: "normal" | "max") => {
-    setOpen(false); // fecha o modal
+    setOpen(false);
 
-    // Mensagem diferente para cada versão
-    const nome = type === "normal" ? "Free Fire Normal" : "Free Fire Max";
+    // Exibir mensagem de sucesso
+    setSuccess(true);
 
-    toast.success(`${nome} injetado com sucesso!`);
+    // Fecha automaticamente a mensagem depois de 3 segundos
+    setTimeout(() => {
+      setSuccess(false);
+    }, 3000);
   };
 
   return (
@@ -58,7 +61,7 @@ export const ActionButtons = ({ onLogout }: ActionButtonsProps) => {
         </Button>
       </div>
 
-      {/* Modal */}
+      {/* Modal de escolha */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="bg-[#0d0d0d] border border-white/10 text-white">
           <DialogHeader>
@@ -84,6 +87,13 @@ export const ActionButtons = ({ onLogout }: ActionButtonsProps) => {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Mensagem de sucesso */}
+      {success && (
+        <div className="fixed bottom-5 left-1/2 -translate-x-1/2 bg-green-600 text-white px-5 py-3 rounded-xl shadow-lg text-center animate-pulse">
+          Injetado com sucesso!
+        </div>
+      )}
     </>
   );
 };

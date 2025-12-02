@@ -8,22 +8,24 @@ export const DelayOptimizer = () => {
 
   const handleToggle = () => {
     setIsActive(!isActive);
-    toast.success(isActive ? "Delay ativado" : "Delay removido!");
+    toast.success(isActive ? "Delay desativado" : "Delay ativado!");
   };
 
   return (
     <div
-      className="card-gaming rounded-xl p-4 opacity-0 animate-slide-up"
+      className="card-gaming rounded-xl p-4 opacity-0 animate-slide-up mb-1"
       style={{ animationDelay: "300ms", animationFillMode: "forwards" }}
     >
-      <div className="flex items-start justify-between mb-3">
+      <div className="flex items-start justify-between mb-1">
         <div className="flex items-center gap-2">
           <Zap className="w-5 h-5 text-yellow-400" />
           <div>
             <h3 className="text-foreground font-semibold text-base">
               Diminuir Delay
             </h3>
-            <p className="text-muted-foreground text-sm">Reduz o delay do toque</p>
+            <p className="text-muted-foreground text-sm">
+              Reduz o delay do toque
+            </p>
           </div>
         </div>
 
@@ -32,8 +34,8 @@ export const DelayOptimizer = () => {
           size="sm"
           className={
             isActive
-              ? "bg-gray-800 hover:bg-gray-700 text-gray-300"
-              : "bg-red-600 hover:bg-red-700 text-white shadow-[0_0_6px_rgba(255,0,0,0.6)]"
+              ? "bg-destructive hover:bg-destructive/90 text-destructive-foreground"
+              : "bg-success hover:bg-success/90 text-success-foreground"
           }
         >
           {isActive ? "Desativar" : "Ativar"}
@@ -41,9 +43,8 @@ export const DelayOptimizer = () => {
       </div>
 
       {isActive && (
-        <div className="card-gaming-inner rounded-lg px-4 py-3 flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
-          <span className="text-green-400">0 Delay</span>
+        <div className="card-gaming-inner rounded-lg px-4 py-3">
+          <span className="text-green-400">0 Delay aplicado</span>
         </div>
       )}
     </div>

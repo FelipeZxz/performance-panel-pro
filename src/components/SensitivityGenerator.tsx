@@ -12,14 +12,14 @@ interface SensitivityResult {
   mira4x: number;
   miraAwm: number;
   olhadinha: number;
-  tiroCima: number;
+  Dpi: number;
 }
 
 const generateSensitivity = (level: SensitivityLevel): SensitivityResult => {
   const ranges = {
-    baixa: { min: 10, max: 40 },
-    media: { min: 40, max: 70 },
-    alta: { min: 70, max: 100 },
+    baixa: { min: 150, max: 175 },
+    media: { min: 175, max: 185 },
+    alta: { min: 185, max: 200 },
   };
 
   const { min, max } = ranges[level];

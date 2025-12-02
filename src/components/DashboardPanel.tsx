@@ -16,6 +16,7 @@ export const DashboardPanel = ({ onLogout }: DashboardPanelProps) => {
   return (
     <div className="min-h-screen bg-background py-6 px-4">
       <div className="max-w-md mx-auto space-y-4">
+        
         {/* Header */}
         <div
           className="text-center mb-4 opacity-0 animate-fade-in"
@@ -44,25 +45,6 @@ export const DashboardPanel = ({ onLogout }: DashboardPanelProps) => {
         {/* Buttons */}
         <ActionButtons onLogout={onLogout} />
 
-        {/* Status Banner - Red Neon */}
-        <div
-          className="
-            rounded-xl py-3 px-4 flex items-center justify-center gap-2 
-            opacity-0 animate-slide-up animate-pulse-glow
-            border border-red-600/40
-          "
-          style={{
-            background:
-              "linear-gradient(90deg, rgba(60,0,0,0.5) 0%, rgba(90,0,0,0.5) 50%, rgba(60,0,0,0.5) 100%)",
-            animationDelay: "700ms",
-            animationFillMode: "forwards",
-          }}
-        >
-          <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
-          <span className="text-foreground/90 text-sm font-medium">
-            Online
-          </span>
-        </div>
       </div>
     </div>
   );

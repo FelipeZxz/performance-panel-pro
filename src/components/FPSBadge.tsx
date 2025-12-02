@@ -8,9 +8,10 @@ interface FPSBadgeProps {
 export const FPSBadge = ({ selectedFPS, onFPSChange }: FPSBadgeProps) => {
   return (
     <div
-      className="w-full rounded-xl py-4 px-4 opacity-0 animate-fade-in"
+      className="w-full rounded-xl py-4 px-4 opacity-0 animate-fade-in border border-white/10"
       style={{
-        background: "linear-gradient(135deg, #1a1a1a 0%, #202020 100%)",
+        background:
+          "linear-gradient(135deg, #121212 0%, #1a1a1a 100%)",
         animationFillMode: "forwards",
       }}
     >

@@ -45,7 +45,7 @@ export const DelayOptimizer = () => {
       {isActive && (
         <div className="card-gaming-inner rounded-lg px-4 py-3 flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
-          <span className="text-green-400">0 Delay aplicado</span>
+          <span className="text-green-400">Aplicado</span>
         </div>
       )}
     </div>

@@ -122,19 +122,6 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
               {isLoading ? "Verificando..." : "Entrar"}
             </Button>
           </div>
-
-          {/* Admin Panel Toggle */}
-          <div className="mt-4 pt-4 border-t border-border">
-            <button
-              onClick={() => setShowAdminPanel(!showAdminPanel)}
-              className="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm transition-colors"
-            >
-              <Settings className="w-4 h-4" />
-              {showAdminPanel ? "Fechar Admin" : "Área do Admin"}
-            </button>
-
-            {showAdminPanel && (
-              <div className="mt-4 space-y-3">
                 <div>
                   <label className="text-muted-foreground text-sm mb-2 block">
                     Chave de Admin
@@ -183,7 +170,7 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
         </div>
 
         <p className="text-center text-muted-foreground text-xs mt-4">
-          Versão 2.0 • Desenvolvido por Naxx
+          Versão 2.0 • Desenvolvido por FlpX
         </p>
       </div>
     </div>

@@ -12,18 +12,30 @@ interface SensitivityResult {
   mira4x: number;
   miraAwm: number;
   olhadinha: number;
+  tiroCima: number;
   Dpi: number;
 }
 
 const generateSensitivity = (level: SensitivityLevel): SensitivityResult => {
-  const ranges = {
+  // Valores normais (mantidos)
+  const generalRanges = {
     baixa: { min: 150, max: 175 },
     media: { min: 175, max: 185 },
     alta: { min: 185, max: 200 },
   };
 
-  const { min, max } = ranges[level];
+  // DPI com faixas especiais
+  const dpiRanges = {
+    baixa: { min: 500, max: 596 },
+    media: { min: 596, max: 720 },
+    alta: { min: 720, max: 960 },
+  };
+
+  const { min, max } = generalRanges[level];
+  const { min: dpiMin, max: dpiMax } = dpiRanges[level];
+
   const random = () => Math.floor(min + Math.random() * (max - min));
+  const randomDpi = () => Math.floor(dpiMin + Math.random() * (dpiMax - dpiMin));
 
   return {
     geral: random(),
@@ -33,6 +45,7 @@ const generateSensitivity = (level: SensitivityLevel): SensitivityResult => {
     miraAwm: random(),
     olhadinha: random(),
     tiroCima: random(),
+    Dpi: randomDpi(),
   };
 };
 
@@ -94,34 +107,47 @@ export const SensitivityGenerator = () => {
       {result && (
         <div className="mt-4 space-y-2">
           <div className="card-gaming-inner rounded-lg p-3 space-y-2">
+
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Geral:</span>
               <span className="text-primary font-semibold">{result.geral}</span>
             </div>
+
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Ponto Vermelho:</span>
               <span className="text-primary font-semibold">{result.pontoVermelho}</span>
             </div>
+
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Mira 2x:</span>
               <span className="text-primary font-semibold">{result.mira2x}</span>
             </div>
+
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Mira 4x:</span>
               <span className="text-primary font-semibold">{result.mira4x}</span>
             </div>
+
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Mira AWM:</span>
               <span className="text-primary font-semibold">{result.miraAwm}</span>
             </div>
+
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Olhadinha:</span>
               <span className="text-primary font-semibold">{result.olhadinha}</span>
             </div>
+
             <div className="flex justify-between text-sm">
               <span className="text-muted-foreground">Tiro p/ Cima:</span>
               <span className="text-primary font-semibold">{result.tiroCima}</span>
             </div>
+
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">DPI:</span>
+              <span className="text-primary font-semibold">{result.Dpi}</span>
+            </div>
+
           </div>
         </div>
       )}

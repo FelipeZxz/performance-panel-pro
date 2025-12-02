@@ -1,72 +1,89 @@
-import Image from "next/image";
+import { useState } from "react";
+import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import React from "react";
-import { FaFire, FaBolt } from "react-icons/fa";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { toast } from "sonner";
 
-export default function ffAppLink() {
-  const [open, setOpen] = React.useState(true);
+interface ActionButtonsProps {
+  onLogout: () => void;
+}
 
-  const openFF = (pkg: string) => {
-    // Tenta abrir o app diretamente
-    window.location.href = `android-app://${pkg}`;
-
-    // Caso o app não esteja instalado → fallback após 1200ms
-    setTimeout(() => {
-      window.location.href = `https://play.google.com/store/apps/details?id=${pkg}`;
-    }, 1200);
-  };
+export const ActionButtons = ({ onLogout }: ActionButtonsProps) => {
+  const [open, setOpen] = useState(false);
 
   const handleSelect = (type: "normal" | "max") => {
-    setOpen(false);
+    setOpen(false); // fecha o modal
 
-    const pkgNormal = "com.dts.freefireth";
-    const pkgMax = "com.dts.freefiremax";
+    // Mensagem diferente para cada versão
+    const nome = type === "normal" ? "Free Fire Normal" : "Free Fire Max";
 
-    openFF(type === "normal" ? pkgNormal : pkgMax);
+    toast.success(`${nome} injetado com sucesso!`);
   };
 
   return (
-    <div>
+    <>
+      <div
+        className="space-y-3 opacity-0 animate-slide-up"
+        style={{ animationDelay: "600ms", animationFillMode: "forwards" }}
+      >
+        {/* Botão Injetar */}
+        <Button
+          onClick={() => setOpen(true)}
+          className="
+            w-full h-12 text-base font-semibold 
+            bg-red-600 
+            hover:bg-red-700 
+            text-white
+            shadow-[0_0_14px_rgba(255,0,0,0.55)]
+            transition-all
+          "
+        >
+          Injetar
+        </Button>
+
+        {/* Botão Sair */}
+        <Button
+          onClick={onLogout}
+          variant="secondary"
+          className="
+            w-full h-12 text-base font-medium 
+            bg-zinc-900 
+            hover:bg-zinc-800 
+            text-foreground 
+            border border-white/20
+          "
+        >
+          <LogOut className="w-4 h-4 mr-2" />
+          Sair
+        </Button>
+      </div>
+
+      {/* Modal */}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
+        <DialogContent className="bg-[#0d0d0d] border border-white/10 text-white">
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold text-center flex items-center justify-center gap-2">
-              <FaFire className="text-orange-500" />
-              Selecionar versão do jogo
+            <DialogTitle className="text-lg font-semibold">
+              Escolha a versão do Free Fire
             </DialogTitle>
-            <DialogDescription className="text-center mt-2 text-gray-700">
-              Escolha qual versão do Free Fire deseja abrir.
-            </DialogDescription>
           </DialogHeader>
 
-          <div className="flex flex-col gap-4 mt-4">
-            {/* Free Fire Normal */}
+          <div className="mt-4 flex flex-col gap-3">
             <Button
-              className="w-full flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white py-6 rounded-xl"
+              className="w-full bg-white/10 hover:bg-white/20 text-white py-3 rounded-xl"
               onClick={() => handleSelect("normal")}
             >
-              <FaFire className="text-xl" />
-              <span className="text-lg font-semibold">Abrir Free Fire</span>
+              Free Fire Normal
             </Button>
 
-            {/* Free Fire MAX */}
             <Button
-              className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-6 rounded-xl"
+              className="w-full bg-white/10 hover:bg-white/20 text-white py-3 rounded-xl"
               onClick={() => handleSelect("max")}
             >
-              <FaBolt className="text-xl" />
-              <span className="text-lg font-semibold">Abrir Free Fire MAX</span>
+              Free Fire Max
             </Button>
           </div>
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   );
-}
+};

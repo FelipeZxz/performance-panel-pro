@@ -10,8 +10,7 @@ export const FPSBadge = ({ selectedFPS, onFPSChange }: FPSBadgeProps) => {
     <div
       className="w-full rounded-xl py-4 px-4 opacity-0 animate-fade-in"
       style={{
-        background:
-          "linear-gradient(135deg, hsl(25, 60%, 20%) 0%, hsl(25, 60%, 25%) 100%)",
+        background: "linear-gradient(135deg, #1a1a1a 0%, #202020 100%)",
         animationFillMode: "forwards",
       }}
     >
@@ -23,10 +22,10 @@ export const FPSBadge = ({ selectedFPS, onFPSChange }: FPSBadgeProps) => {
         <button
           onClick={() => onFPSChange(60)}
           className={cn(
-            "flex-1 py-3 px-4 rounded-lg font-semibold text-base transition-all duration-300 backdrop-blur",
+            "flex-1 py-3 px-4 rounded-lg font-semibold text-base transition-all duration-300",
             selectedFPS === 60
-              ? "bg-white/10 text-white shadow-lg"
-              : "bg-white/5 text-foreground/70 hover:bg-white/10"
+              ? "bg-orange-500 text-black shadow-md"
+              : "bg-zinc-800 text-foreground/70 hover:bg-zinc-700"
           )}
         >
           60 FPS
@@ -35,10 +34,10 @@ export const FPSBadge = ({ selectedFPS, onFPSChange }: FPSBadgeProps) => {
         <button
           onClick={() => onFPSChange(120)}
           className={cn(
-            "flex-1 py-3 px-4 rounded-lg font-semibold text-base transition-all duration-300 backdrop-blur",
+            "flex-1 py-3 px-4 rounded-lg font-semibold text-base transition-all duration-300",
             selectedFPS === 120
-              ? "bg-white/10 text-white shadow-lg"
-              : "bg-white/5 text-foreground/70 hover:bg-white/10"
+              ? "bg-orange-500 text-black shadow-md"
+              : "bg-zinc-800 text-foreground/70 hover:bg-zinc-700"
           )}
         >
           120 FPS

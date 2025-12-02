@@ -60,7 +60,7 @@ export const DashboardPanel = ({ onLogout }: DashboardPanelProps) => {
         >
           <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
           <span className="text-foreground/90 text-sm font-medium">
-            Acesso autorizado! Bem-vindo ao SnTx Painel
+            Bem-vindo ao SnTx Painel !
           </span>
         </div>
       </div>

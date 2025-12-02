@@ -1,8 +1,9 @@
+import { useState } from "react";
 import { FPSBadge } from "./FPSBadge";
+import { PerformanceMonitor } from "./PerformanceMonitor";
 import { SensitivityGenerator } from "./SensitivityGenerator";
 import { DelayOptimizer } from "./DelayOptimizer";
 import { FFOptimizer } from "./FFOptimizer";
-import { PerformanceMonitor } from "./PerformanceMonitor";
 import { ActionButtons } from "./ActionButtons";
 
 interface DashboardPanelProps {
@@ -10,6 +11,8 @@ interface DashboardPanelProps {
 }
 
 export const DashboardPanel = ({ onLogout }: DashboardPanelProps) => {
+  const [selectedFPS, setSelectedFPS] = useState<60 | 120>(60);
+
   return (
     <div className="min-h-screen bg-background py-6 px-4">
       <div className="max-w-md mx-auto space-y-4">
@@ -26,8 +29,11 @@ export const DashboardPanel = ({ onLogout }: DashboardPanelProps) => {
           </p>
         </div>
 
-        {/* FPS Badge */}
-        <FPSBadge />
+        {/* Performance Monitor - TOP */}
+        <PerformanceMonitor maxFPS={selectedFPS} />
+
+        {/* FPS Badge - with selection */}
+        <FPSBadge selectedFPS={selectedFPS} onFPSChange={setSelectedFPS} />
 
         {/* Sensitivity Generator */}
         <SensitivityGenerator />
@@ -37,9 +43,6 @@ export const DashboardPanel = ({ onLogout }: DashboardPanelProps) => {
 
         {/* FF Optimizer */}
         <FFOptimizer />
-
-        {/* Performance Monitor */}
-        <PerformanceMonitor />
 
         {/* Action Buttons */}
         <ActionButtons onLogout={onLogout} />

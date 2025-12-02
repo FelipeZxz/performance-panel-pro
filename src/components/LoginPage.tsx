@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import { Key, Settings, Eye, EyeOff } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 interface LoginPageProps {
   onLogin: () => void;
@@ -9,82 +11,180 @@ interface LoginPageProps {
 
 export const LoginPage = ({ onLogin }: LoginPageProps) => {
   const [key, setKey] = useState("");
-  const [showKey, setShowKey] = useState(false);
-  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const [adminKey, setAdminKey] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (key.trim().length > 0) {
-      onLogin();
-    } else {
-      setError("Digite uma key válida");
+  const handleLogin = async () => {
+    if (!key.trim()) {
+      toast.error("Por favor, insira uma chave de acesso");
+      return;
     }
+
+    setIsLoading(true);
+    
+    // Fetch the current password from the database
+    const { data } = await supabase
+      .from('settings')
+      .select('password')
+      .eq('id', 'main')
+      .maybeSingle();
+
+    setTimeout(() => {
+      if (data && key === data.password) {
+        toast.success("Acesso autorizado!");
+        onLogin();
+      } else {
+        toast.error("Chave inválida");
+      }
+      setIsLoading(false);
+    }, 1000);
+  };
+
+  const handleChangePassword = async () => {
+    if (!adminKey.trim() || !newPassword.trim()) {
+      toast.error("Preencha todos os campos");
+      return;
+    }
+
+    // Verify admin key
+    const { data: settings } = await supabase
+      .from('settings')
+      .select('admin_key')
+      .eq('id', 'main')
+      .maybeSingle();
+
+    if (!settings || adminKey !== settings.admin_key) {
+      toast.error("Chave de admin inválida");
+      return;
+    }
+
+    // Update password
+    const { error } = await supabase
+      .from('settings')
+      .update({ password: newPassword })
+      .eq('id', 'main');
+
+    if (error) {
+      toast.error("Erro ao alterar senha");
+      return;
+    }
+
+    toast.success("Senha alterada com sucesso!");
+    setShowAdminPanel(false);
+    setAdminKey("");
+    setNewPassword("");
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center px-4 py-8">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div
-        className="w-full max-w-md card-gaming rounded-2xl p-6 opacity-0 animate-fade-in"
+        className="w-full max-w-sm opacity-0 animate-fade-in"
         style={{ animationFillMode: "forwards" }}
       >
-        <div className="text-center mb-6">
-          <h1 className="title-gradient font-display text-2xl font-bold mb-2">
-            Acesso ao Painel
+        <div className="text-center mb-8">
+          <h1 className="title-gradient font-display text-3xl font-bold tracking-wider mb-2">
+            NaxxPanel
           </h1>
           <p className="text-muted-foreground text-sm">
-            Digite a key de acesso para continuar
+            Otimizador de desempenho do Free Fire
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="text-foreground text-sm font-medium mb-2 block">
-              Key de Acesso
-            </label>
-            <div className="relative">
-              <Input
-                type={showKey ? "text" : "password"}
-                placeholder="Digite a key aqui"
-                value={key}
-                onChange={(e) => {
-                  setKey(e.target.value);
-                  setError("");
-                }}
-                className="bg-muted border-border/50 h-12 pr-12 font-mono"
-              />
-              <button
-                type="button"
-                onClick={() => setShowKey(!showKey)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {showKey ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
-            </div>
-            {error && <p className="text-red-400 text-xs mt-1">{error}</p>}
+        <div className="card-gaming rounded-xl p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <Key className="w-5 h-5 text-primary" />
+            <h2 className="text-foreground font-semibold">Acesso ao Painel</h2>
           </div>
 
-          <Button
-            type="submit"
-            className="w-full h-12 text-base font-semibold bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity"
-          >
-            Acessar Painel
-          </Button>
-        </form>
+          <div className="space-y-4">
+            <div>
+              <label className="text-muted-foreground text-sm mb-2 block">
+                Chave de Acesso
+              </label>
+              <Input
+                type="password"
+                placeholder="Digite sua chave"
+                value={key}
+                onChange={(e) => setKey(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+                className="bg-input border-border text-foreground placeholder:text-muted-foreground"
+              />
+            </div>
 
-        <div
-          className="mt-6 card-gaming-inner rounded-xl p-4 opacity-0 animate-fade-in"
-          style={{ animationDelay: "200ms", animationFillMode: "forwards" }}
-        >
-          <p className="text-primary text-sm font-semibold mb-3">
-            Para usar na tela inicial:
-          </p>
-          <ol className="text-muted-foreground text-sm space-y-1.5">
-            <li>1. Acesse no Navegador</li>
-            <li>2. Toque em compartilhar</li>
-            <li>3. Adicionar à Tela Inicial</li>
-            <li>4. Abra o app pela tela inicial</li>
-          </ol>
+            <Button
+              onClick={handleLogin}
+              disabled={isLoading}
+              className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+            >
+              {isLoading ? "Verificando..." : "Entrar"}
+            </Button>
+          </div>
+
+          {/* Admin Panel Toggle */}
+          <div className="mt-4 pt-4 border-t border-border">
+            <button
+              onClick={() => setShowAdminPanel(!showAdminPanel)}
+              className="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm transition-colors"
+            >
+              <Settings className="w-4 h-4" />
+              {showAdminPanel ? "Fechar Admin" : "Área do Admin"}
+            </button>
+
+            {showAdminPanel && (
+              <div className="mt-4 space-y-3">
+                <div>
+                  <label className="text-muted-foreground text-sm mb-2 block">
+                    Chave de Admin
+                  </label>
+                  <Input
+                    type="password"
+                    placeholder="Digite a chave de admin"
+                    value={adminKey}
+                    onChange={(e) => setAdminKey(e.target.value)}
+                    className="bg-input border-border text-foreground placeholder:text-muted-foreground"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-muted-foreground text-sm mb-2 block">
+                    Nova Senha
+                  </label>
+                  <div className="relative">
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Digite a nova senha"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      className="bg-input border-border text-foreground placeholder:text-muted-foreground pr-10"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    >
+                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                <Button
+                  onClick={handleChangePassword}
+                  variant="secondary"
+                  className="w-full"
+                >
+                  Alterar Senha
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
+
+        <p className="text-center text-muted-foreground text-xs mt-4">
+          Versão 2.0 • Desenvolvido por Naxx
+        </p>
       </div>
     </div>
   );

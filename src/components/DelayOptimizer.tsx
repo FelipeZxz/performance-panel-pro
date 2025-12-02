@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 export const DelayOptimizer = () => {
-  const [isActive, setIsActive] = useState(true);
+  const [isActive, setIsActive] = useState(false);
 
   const handleToggle = () => {
     setIsActive(!isActive);
@@ -24,16 +24,19 @@ export const DelayOptimizer = () => {
         </div>
         <Button
           onClick={handleToggle}
-          variant="destructive"
           size="sm"
-          className="bg-red-600 hover:bg-red-700 text-white"
+          className={
+            isActive
+              ? "bg-destructive hover:bg-destructive/90 text-destructive-foreground"
+              : "bg-success hover:bg-success/90 text-success-foreground"
+          }
         >
           {isActive ? "Desativar" : "Ativar"}
         </Button>
       </div>
 
       <div className="card-gaming-inner rounded-lg px-4 py-3">
-        <span className={isActive ? "text-green-400" : "text-primary"}>
+        <span className={isActive ? "text-green-400" : "text-muted-foreground"}>
           {isActive ? "0 Delay" : "Delay Padrão"}
         </span>
       </div>

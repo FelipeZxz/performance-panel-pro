@@ -13,10 +13,10 @@ export const FFOptimizer = () => {
 
   return (
     <div
-      className="card-gaming rounded-xl p-4 opacity-0 animate-slide-up"
+      className="card-gaming rounded-xl p-4 opacity-0 animate-slide-up mb-1"
       style={{ animationDelay: "400ms", animationFillMode: "forwards" }}
     >
-      <div className="flex items-start justify-between mb-3">
+      <div className="flex items-start justify-between mb-1">
         <div className="flex items-center gap-2">
           <Zap className="w-5 h-5 text-yellow-400" />
           <div>
@@ -27,21 +27,19 @@ export const FFOptimizer = () => {
           </div>
         </div>
 
-        {/* Botão vermelho quando desligado / cinza quando ligado */}
         <Button
           onClick={handleToggle}
           size="sm"
           className={
             isOptimized
-              ? "bg-gray-800 hover:bg-gray-700 text-gray-300"
-              : "bg-red-600 hover:bg-red-700 text-white shadow-[0_0_6px_rgba(255,0,0,0.6)]"
+              ? "bg-destructive hover:bg-destructive/90 text-destructive-foreground"
+              : "bg-success hover:bg-success/90 text-success-foreground"
           }
         >
           {isOptimized ? "Desativar" : "Ativar"}
         </Button>
       </div>
 
-      {/* Exibe apenas quando estiver ativado */}
       {isOptimized && (
         <div className="card-gaming-inner rounded-lg px-4 py-3 flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />

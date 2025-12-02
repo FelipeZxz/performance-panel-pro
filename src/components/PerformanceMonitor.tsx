@@ -75,9 +75,6 @@ export const PerformanceMonitor = ({ maxFPS }: PerformanceMonitorProps) => {
       className="card-gaming rounded-xl p-4 opacity-0 animate-slide-up"
       style={{ animationDelay: "100ms", animationFillMode: "forwards" }}
     >
-      <h3 className="section-title font-semibold text-base mb-4">
-        Monitor de Performance
-      </h3>
 
       <div className="h-48 w-full">
         <ResponsiveContainer width="100%" height="100%">

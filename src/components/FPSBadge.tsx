@@ -10,30 +10,35 @@ export const FPSBadge = ({ selectedFPS, onFPSChange }: FPSBadgeProps) => {
     <div
       className="w-full rounded-xl py-4 px-4 opacity-0 animate-fade-in"
       style={{
-        background: "linear-gradient(135deg, hsl(25, 60%, 35%) 0%, hsl(25, 70%, 40%) 100%)",
+        background:
+          "linear-gradient(135deg, hsl(25, 60%, 20%) 0%, hsl(25, 60%, 25%) 100%)",
         animationFillMode: "forwards",
       }}
     >
-      <p className="text-center text-foreground/80 text-sm mb-3">Selecione o limite de FPS</p>
+      <p className="text-center text-foreground/80 text-sm mb-3">
+        Selecione o limite de FPS
+      </p>
+
       <div className="flex gap-3">
         <button
           onClick={() => onFPSChange(60)}
           className={cn(
-            "flex-1 py-3 px-4 rounded-lg font-semibold text-base transition-all duration-300",
+            "flex-1 py-3 px-4 rounded-lg font-semibold text-base transition-all duration-300 backdrop-blur",
             selectedFPS === 60
-              ? "bg-primary text-primary-foreground shadow-lg"
-              : "bg-background/30 text-foreground/80 hover:bg-background/50"
+              ? "bg-white/10 text-white shadow-lg"
+              : "bg-white/5 text-foreground/70 hover:bg-white/10"
           )}
         >
           60 FPS
         </button>
+
         <button
           onClick={() => onFPSChange(120)}
           className={cn(
-            "flex-1 py-3 px-4 rounded-lg font-semibold text-base transition-all duration-300",
+            "flex-1 py-3 px-4 rounded-lg font-semibold text-base transition-all duration-300 backdrop-blur",
             selectedFPS === 120
-              ? "bg-primary text-primary-foreground shadow-lg"
-              : "bg-background/30 text-foreground/80 hover:bg-background/50"
+              ? "bg-white/10 text-white shadow-lg"
+              : "bg-white/5 text-foreground/70 hover:bg-white/10"
           )}
         >
           120 FPS

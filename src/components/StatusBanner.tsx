@@ -7,9 +7,6 @@ export const StatusBanner = () => {
       style={{ animationDelay: "600ms", animationFillMode: "forwards" }}
     >
       <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
-      <span className="text-foreground/90 text-sm font-medium">
-        Acesso autorizado! Bem-vindo ao NaxxPanel
-      </span>
     </div>
   );
 };

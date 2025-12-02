@@ -21,7 +21,7 @@ export const DashboardPanel = ({ onLogout }: DashboardPanelProps) => {
           className="text-center mb-4 opacity-0 animate-fade-in"
           style={{ animationFillMode: "forwards" }}
         >
-          <h1 className="title-gradient font-display text-2xl font-bold tracking-wide">
+          <h1 className="font-display text-2xl font-bold tracking-wide bg-gradient-to-r from-red-600 to-red-400 bg-clip-text text-transparent">
             SnTx
           </h1>
           <p className="text-muted-foreground text-sm mt-1">
@@ -29,10 +29,10 @@ export const DashboardPanel = ({ onLogout }: DashboardPanelProps) => {
           </p>
         </div>
 
-        {/* Performance Monitor - TOP */}
+        {/* Performance Monitor */}
         <PerformanceMonitor maxFPS={selectedFPS} />
 
-        {/* FPS Badge - with selection */}
+        {/* FPS Selector */}
         <FPSBadge selectedFPS={selectedFPS} onFPSChange={setSelectedFPS} />
 
         {/* Sensitivity Generator */}
@@ -44,17 +44,26 @@ export const DashboardPanel = ({ onLogout }: DashboardPanelProps) => {
         {/* FF Optimizer */}
         <FFOptimizer />
 
-        {/* Action Buttons */}
+        {/* Buttons */}
         <ActionButtons onLogout={onLogout} />
 
-        {/* Status Banner */}
+        {/* Status Banner - Red Neon */}
         <div
-          className="status-banner rounded-xl py-3 px-4 flex items-center justify-center gap-2 opacity-0 animate-slide-up animate-pulse-glow"
-          style={{ animationDelay: "700ms", animationFillMode: "forwards" }}
+          className="
+            rounded-xl py-3 px-4 flex items-center justify-center gap-2 
+            opacity-0 animate-slide-up animate-pulse-glow
+            border border-red-600/40
+          "
+          style={{
+            background:
+              "linear-gradient(90deg, rgba(60,0,0,0.5) 0%, rgba(90,0,0,0.5) 50%, rgba(60,0,0,0.5) 100%)",
+            animationDelay: "700ms",
+            animationFillMode: "forwards",
+          }}
         >
           <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
           <span className="text-foreground/90 text-sm font-medium">
-            Acesso autorizado! Bem-vindo ao NaxxPanel
+            Acesso autorizado! Bem-vindo ao SnTx
           </span>
         </div>
       </div>

@@ -23,10 +23,10 @@ const generateRandomData = (baseTime: number, maxFPS: number): DataPoint => {
   const minutes = Math.floor(baseTime / 60);
   const seconds = baseTime % 60;
   const time = `${minutes}:${seconds.toString().padStart(2, "0")}`;
-  
+
   const fpsBase = maxFPS === 60 ? 45 : 90;
   const fpsVariation = maxFPS === 60 ? 15 : 30;
-  
+
   return {
     time,
     fps: Math.min(maxFPS, Math.floor(fpsBase + Math.random() * fpsVariation)),
@@ -47,7 +47,6 @@ export const PerformanceMonitor = ({ maxFPS }: PerformanceMonitorProps) => {
   const [baseTime, setBaseTime] = useState(1704);
 
   useEffect(() => {
-    // Reset data when maxFPS changes
     const newData: DataPoint[] = [];
     for (let i = 0; i < 12; i++) {
       newData.push(generateRandomData(baseTime - 24 + i * 2, maxFPS));
@@ -80,19 +79,25 @@ export const PerformanceMonitor = ({ maxFPS }: PerformanceMonitorProps) => {
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
             <defs>
+
+              {/* FPS AGORA EM VERMELHO */}
               <linearGradient id="fpsGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="hsl(35, 100%, 55%)" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="hsl(35, 100%, 55%)" stopOpacity={0} />
+                <stop offset="5%" stopColor="hsl(0, 100%, 55%)" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="hsl(0, 100%, 55%)" stopOpacity={0} />
               </linearGradient>
+
               <linearGradient id="cpuGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="hsl(180, 70%, 50%)" stopOpacity={0.4} />
                 <stop offset="95%" stopColor="hsl(180, 70%, 50%)" stopOpacity={0} />
               </linearGradient>
+
               <linearGradient id="gpuGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="hsl(140, 70%, 50%)" stopOpacity={0.4} />
                 <stop offset="95%" stopColor="hsl(140, 70%, 50%)" stopOpacity={0} />
               </linearGradient>
+
             </defs>
+
             <XAxis
               dataKey="time"
               stroke="hsl(0, 0%, 40%)"
@@ -117,15 +122,18 @@ export const PerformanceMonitor = ({ maxFPS }: PerformanceMonitorProps) => {
               }}
               labelStyle={{ color: "hsl(0, 0%, 80%)" }}
             />
+
+            {/* FPS AGORA EM VERMELHO */}
             <Area
               type="monotone"
               dataKey="fps"
-              stroke="hsl(35, 100%, 55%)"
+              stroke="red"
               strokeWidth={2}
               fill="url(#fpsGradient)"
               dot={false}
               animationDuration={300}
             />
+
             <Area
               type="monotone"
               dataKey="cpu"

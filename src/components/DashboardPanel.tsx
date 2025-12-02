@@ -22,7 +22,7 @@ export const DashboardPanel = ({ onLogout }: DashboardPanelProps) => {
           style={{ animationFillMode: "forwards" }}
         >
           <h1 className="title-gradient font-display text-2xl font-bold tracking-wide">
-            NaxxPanel
+            SnTx
           </h1>
           <p className="text-muted-foreground text-sm mt-1">
             Otimizador de desempenho do Free Fire

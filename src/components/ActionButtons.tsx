@@ -1,4 +1,4 @@
-É no buttons.tsx import { LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 

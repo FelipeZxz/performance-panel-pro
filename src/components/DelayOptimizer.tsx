@@ -1,24 +1,24 @@
 import { useState } from "react";
-import { Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { Zap } from "lucide-react";
 
 export const DelayOptimizer = () => {
   const [isActive, setIsActive] = useState(false);
 
   const handleToggle = () => {
     setIsActive(!isActive);
-    toast.success(isActive ? "Delay desativado" : "Delay ativado!");
+    toast.success(isActive ? "Delay desativado!" : "Delay ativado!");
   };
 
   return (
     <div
-      className="card-gaming rounded-xl p-4 opacity-0 animate-slide-up mb-1"
+      className="card-gaming rounded-xl p-4 opacity-0 animate-slide-up"
       style={{ animationDelay: "300ms", animationFillMode: "forwards" }}
     >
-      <div className="flex items-start justify-between mb-1">
+      <div className="flex items-start justify-between mb-2">
         <div className="flex items-center gap-2">
-          <Zap className="w-5 h-5 text-yellow-400" />
+          <Zap size={18} className="text-yellow-400" />
           <div>
             <h3 className="text-foreground font-semibold text-base">
               Diminuir Delay
@@ -34,20 +34,19 @@ export const DelayOptimizer = () => {
           size="sm"
           className={
             isActive
-              ? "bg-destructive hover:bg-destructive/90 text-destructive-foreground"
-              : "bg-success hover:bg-success/90 text-success-foreground"
+              ? "bg-red-600 hover:bg-red-700 text-white"
+              : "bg-green-600 hover:bg-green-700 text-white"
           }
         >
           {isActive ? "Desativar" : "Ativar"}
         </Button>
       </div>
 
-      {isActive && (
-        <div className="card-gaming-inner rounded-lg px-4 py-3 flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
-          <span className="text-green-400">0 Delay aplicado</span>
-        </div>
-      )}
+      <div className="card-gaming-inner rounded-lg px-4 py-2">
+        <span className={isActive ? "text-green-400" : "text-muted-foreground"}>
+          {isActive ? "0 Delay" : "Delay Padrão"}
+        </span>
+      </div>
     </div>
   );
 };

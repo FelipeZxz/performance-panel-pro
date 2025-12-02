@@ -1,9 +1,12 @@
+/* IMPORT DA FONTE — PRECISA SER O PRIMEIRO */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
 
+/* TAILWIND — SEMPRE DEPOIS DO @import */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* VARIÁVEIS E BASE */
 @layer base {
   :root {
     --background: 0 0% 5%;
@@ -60,6 +63,7 @@
   }
 }
 
+/* BASE EXTRA */
 @layer base {
   * {
     @apply border-border;
@@ -71,6 +75,7 @@
   }
 }
 
+/* COMPONENTES */
 @layer components {
   .title-gradient {
     background: var(--gradient-orange);
@@ -82,7 +87,7 @@
   .card-gaming {
     background: var(--gradient-card);
     border: 1px solid hsl(0, 0%, 20%);
-    box-shadow: 
+    box-shadow:
       0 0 20px hsl(0, 0%, 0% / 0.3),
       inset 0 1px 0 hsl(0, 0%, 20% / 0.3);
   }
@@ -115,6 +120,7 @@
   }
 }
 
+/* UTILITÁRIOS */
 @layer utilities {
   .animate-pulse-slow {
     animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;

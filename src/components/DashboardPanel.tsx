@@ -25,8 +25,7 @@ export const DashboardPanel = ({ onLogout }: DashboardPanelProps) => {
             SnTx Painel
           </h1>
           <p
-            
-          </p>
+
         </div>
 
         {/* Performance Monitor */}

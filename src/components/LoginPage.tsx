@@ -47,10 +47,10 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
       >
         <div className="text-center mb-8">
           <h1 className="title-gradient font-display text-3xl font-bold tracking-wider mb-2">
-            SnTx Painel
+            Acesso ao Painel
           </h1>
           <p className="text-muted-foreground text-sm">
-            Otimizador de desempenho do Free Fire
+            Melhor Assistente de Mira do Free Fire.
           </p>
         </div>
 

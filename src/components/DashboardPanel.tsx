@@ -22,10 +22,10 @@ export const DashboardPanel = ({ onLogout }: DashboardPanelProps) => {
           style={{ animationFillMode: "forwards" }}
         >
           <h1 className="font-display text-2xl font-bold tracking-wide bg-gradient-to-r from-red-600 to-red-400 bg-clip-text text-transparent">
-            SnTx
+            SnTx Painel
           </h1>
-          <p className="text-muted-foreground text-sm mt-1">
-            Otimizador de desempenho do Free Fire
+          <p
+            
           </p>
         </div>
 

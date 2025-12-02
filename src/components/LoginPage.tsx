@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { Key, Settings, Eye, EyeOff } from "lucide-react";
+import { Key } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface LoginPageProps {
@@ -12,10 +12,6 @@ interface LoginPageProps {
 export const LoginPage = ({ onLogin }: LoginPageProps) => {
   const [key, setKey] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [showAdminPanel, setShowAdminPanel] = useState(false);
-  const [adminKey, setAdminKey] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async () => {
     if (!key.trim()) {
@@ -24,12 +20,12 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
     }
 
     setIsLoading(true);
-    
-    // Fetch the current password from the database
+
+    // Buscar senha real no Supabase
     const { data } = await supabase
-      .from('settings')
-      .select('password')
-      .eq('id', 'main')
+      .from("settings")
+      .select("password")
+      .eq("id", "main")
       .maybeSingle();
 
     setTimeout(() => {
@@ -40,42 +36,7 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
         toast.error("Chave inválida");
       }
       setIsLoading(false);
-    }, 1000);
-  };
-
-  const handleChangePassword = async () => {
-    if (!adminKey.trim() || !newPassword.trim()) {
-      toast.error("Preencha todos os campos");
-      return;
-    }
-
-    // Verify admin key
-    const { data: settings } = await supabase
-      .from('settings')
-      .select('admin_key')
-      .eq('id', 'main')
-      .maybeSingle();
-
-    if (!settings || adminKey !== settings.admin_key) {
-      toast.error("Chave de admin inválida");
-      return;
-    }
-
-    // Update password
-    const { error } = await supabase
-      .from('settings')
-      .update({ password: newPassword })
-      .eq('id', 'main');
-
-    if (error) {
-      toast.error("Erro ao alterar senha");
-      return;
-    }
-
-    toast.success("Senha alterada com sucesso!");
-    setShowAdminPanel(false);
-    setAdminKey("");
-    setNewPassword("");
+    }, 800);
   };
 
   return (
@@ -121,51 +82,6 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
             >
               {isLoading ? "Verificando..." : "Entrar"}
             </Button>
-          </div>
-                <div>
-                  <label className="text-muted-foreground text-sm mb-2 block">
-                    Chave de Admin
-                  </label>
-                  <Input
-                    type="password"
-                    placeholder="Digite a chave de admin"
-                    value={adminKey}
-                    onChange={(e) => setAdminKey(e.target.value)}
-                    className="bg-input border-border text-foreground placeholder:text-muted-foreground"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-muted-foreground text-sm mb-2 block">
-                    Nova Senha
-                  </label>
-                  <div className="relative">
-                    <Input
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Digite a nova senha"
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
-                      className="bg-input border-border text-foreground placeholder:text-muted-foreground pr-10"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                    >
-                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                    </button>
-                  </div>
-                </div>
-
-                <Button
-                  onClick={handleChangePassword}
-                  variant="secondary"
-                  className="w-full"
-                >
-                  Alterar Senha
-                </Button>
-              </div>
-            )}
           </div>
         </div>
 

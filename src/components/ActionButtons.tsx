@@ -13,13 +13,15 @@ export const ActionButtons = ({ onLogout }: ActionButtonsProps) => {
   const handleSelect = (type: "normal" | "max") => {
     setOpen(false);
 
-    const packageNormal = "com.dts.freefireth";
-    const packageMax = "com.dts.freefiremax";
+    const pkgNormal = "com.dts.freefireth";
+    const pkgMax = "com.dts.freefiremax";
 
-    const selectedPackage = type === "normal" ? packageNormal : packageMax;
+    const selected = type === "normal" ? pkgNormal : pkgMax;
 
-    // Redireciona para o jogo escolhido
-    window.location.href = `intent://launch/${selectedPackage}#Intent;scheme=package;package=${selectedPackage};end`;
+    // Intent Android correto — abre direto o app
+    const intentUrl = `intent://#Intent;package=${selected};scheme=android.intent.action.VIEW;end`;
+
+    window.location.href = intentUrl;
   };
 
   return (
@@ -28,7 +30,6 @@ export const ActionButtons = ({ onLogout }: ActionButtonsProps) => {
         className="space-y-3 opacity-0 animate-slide-up"
         style={{ animationDelay: "600ms", animationFillMode: "forwards" }}
       >
-        {/* Botão Injetar */}
         <Button
           onClick={() => setOpen(true)}
           className="
@@ -43,7 +44,6 @@ export const ActionButtons = ({ onLogout }: ActionButtonsProps) => {
           Injetar
         </Button>
 
-        {/* Botão Sair */}
         <Button
           onClick={onLogout}
           variant="secondary"
@@ -60,7 +60,6 @@ export const ActionButtons = ({ onLogout }: ActionButtonsProps) => {
         </Button>
       </div>
 
-      {/* Modal */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="bg-[#0d0d0d] border border-white/10 text-white">
           <DialogHeader>

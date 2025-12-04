@@ -104,7 +104,7 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
             Acesso ao Painel
           </h1>
           <p className="text-muted-foreground text-sm">
-            Melhor Assistente de Mira do Free Fire.
+            Assistente de Mira Para Free Fire.
           </p>
         </div>
 

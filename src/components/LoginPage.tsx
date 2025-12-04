@@ -3,10 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Key } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 
 interface LoginPageProps {
-  onLogin: () => void;
+  onLogin: (key: string) => Promise<{ success: boolean; error?: string }>;
 }
 
 export const LoginPage = ({ onLogin }: LoginPageProps) => {
@@ -30,26 +29,14 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
     setIsLoading(true);
 
     try {
-      // Validate key server-side via Edge Function (password never exposed to client)
-      const { data, error } = await supabase.functions.invoke("validate-key", {
-        body: { key: trimmedKey },
-      });
+      const result = await onLogin(trimmedKey);
 
-      if (error) {
-        console.error("Validation error");
-        toast.error("Erro ao validar chave");
-        setIsLoading(false);
-        return;
-      }
-
-      if (data?.valid) {
+      if (result.success) {
         toast.success("Acesso autorizado!");
-        onLogin();
       } else {
-        toast.error("Chave inválida");
+        toast.error(result.error || "Chave inválida");
       }
-    } catch (err) {
-      console.error("Login error");
+    } catch {
       toast.error("Erro de conexão");
     } finally {
       setIsLoading(false);

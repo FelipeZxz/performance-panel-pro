@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      auth_sessions: {
+        Row: {
+          created_at: string
+          expires_at: string
+          id: string
+          ip_address: string | null
+          session_token: string
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          expires_at: string
+          id?: string
+          ip_address?: string | null
+          session_token: string
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          ip_address?: string | null
+          session_token?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
+      rate_limits: {
+        Row: {
+          attempt_count: number
+          first_attempt_at: string
+          id: string
+          ip_address: string
+          locked_until: string | null
+        }
+        Insert: {
+          attempt_count?: number
+          first_attempt_at?: string
+          id?: string
+          ip_address: string
+          locked_until?: string | null
+        }
+        Update: {
+          attempt_count?: number
+          first_attempt_at?: string
+          id?: string
+          ip_address?: string
+          locked_until?: string | null
+        }
+        Relationships: []
+      }
       settings: {
         Row: {
           admin_key: string
@@ -43,7 +94,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      cleanup_expired_sessions: { Args: never; Returns: undefined }
     }
     Enums: {
       [_ in never]: never

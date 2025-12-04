@@ -2,3 +2,9 @@ project_id = "sodkxoldbesulddourbd"
 
 [functions.validate-key]
 verify_jwt = false
+
+[functions.validate-session]
+verify_jwt = false
+
+[functions.logout]
+verify_jwt = false

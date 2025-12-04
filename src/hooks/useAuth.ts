@@ -54,14 +54,12 @@ export const useAuth = () => {
     }
   }, []);
 
-  // Initial validation
+  // Clear session on page load to force re-login
   useEffect(() => {
-    validateSession();
-
-    // Validate session every 5 minutes
-    const interval = setInterval(validateSession, 5 * 60 * 1000);
-    return () => clearInterval(interval);
-  }, [validateSession]);
+    sessionStorage.removeItem(SESSION_KEY);
+    sessionStorage.removeItem(SESSION_EXPIRY_KEY);
+    setAuthState({ isAuthenticated: false, isLoading: false });
+  }, []);
 
   const login = async (key: string): Promise<{ success: boolean; error?: string }> => {
     try {

@@ -19,26 +19,22 @@ export const SplashScreen = ({ onComplete }: SplashScreenProps) => {
 
   return (
     <div 
-      className={`fixed inset-0 bg-gradient-to-br from-red-950 via-red-900 to-black flex items-center justify-center z-50 transition-opacity duration-500 ${fadeOut ? 'opacity-0' : 'opacity-100'}`}
+      className={`fixed inset-0 bg-black flex items-center justify-center z-50 transition-opacity duration-500 ${fadeOut ? 'opacity-0' : 'opacity-100'}`}
     >
-      <div className="text-center">
-        <div className="relative mb-8">
-          <div className="w-24 h-24 mx-auto rounded-2xl bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center shadow-2xl shadow-red-500/50 animate-pulse">
-            <span className="text-4xl font-bold text-white font-orbitron">S</span>
-          </div>
-          <div className="absolute -inset-4 bg-red-500/20 rounded-3xl blur-xl animate-pulse" />
-        </div>
-        
-        <h1 className="text-3xl font-bold text-white font-orbitron mb-4 tracking-wider">
-          SnTx Painel
-        </h1>
-        
-        <div className="flex items-center justify-center gap-2">
-          <span className="text-red-300 text-lg">Carregando</span>
-          <div className="flex gap-1">
-            <span className="w-2 h-2 bg-red-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-            <span className="w-2 h-2 bg-red-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-            <span className="w-2 h-2 bg-red-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+      {/* Animated background particles */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-red-600/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-red-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '500ms' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-red-700/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1000ms' }} />
+      </div>
+      
+      <div className="text-center relative z-10">
+        <div className="flex items-center justify-center gap-1">
+          <span className="text-red-500 text-2xl font-medium animate-pulse">Carregando</span>
+          <div className="flex gap-1 ml-1">
+            <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+            <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+            <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
           </div>
         </div>
       </div>

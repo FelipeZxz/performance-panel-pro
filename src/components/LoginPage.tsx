@@ -14,29 +14,46 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async () => {
-    if (!key.trim()) {
+    const trimmedKey = key.trim();
+    
+    if (!trimmedKey) {
       toast.error("Por favor, insira uma chave de acesso");
+      return;
+    }
+
+    // Basic input validation
+    if (trimmedKey.length > 100) {
+      toast.error("Chave inválida");
       return;
     }
 
     setIsLoading(true);
 
-    // Buscar senha real no Supabase
-    const { data } = await supabase
-      .from("settings")
-      .select("password")
-      .eq("id", "main")
-      .maybeSingle();
+    try {
+      // Validate key server-side via Edge Function (password never exposed to client)
+      const { data, error } = await supabase.functions.invoke("validate-key", {
+        body: { key: trimmedKey },
+      });
 
-    setTimeout(() => {
-      if (data && key === data.password) {
+      if (error) {
+        console.error("Validation error");
+        toast.error("Erro ao validar chave");
+        setIsLoading(false);
+        return;
+      }
+
+      if (data?.valid) {
         toast.success("Acesso autorizado!");
         onLogin();
       } else {
         toast.error("Chave inválida");
       }
+    } catch (err) {
+      console.error("Login error");
+      toast.error("Erro de conexão");
+    } finally {
       setIsLoading(false);
-    }, 800);
+    }
   };
 
   return (
@@ -72,6 +89,7 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
                 onChange={(e) => setKey(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleLogin()}
                 className="bg-input border-border text-foreground placeholder:text-muted-foreground"
+                maxLength={100}
               />
             </div>
 

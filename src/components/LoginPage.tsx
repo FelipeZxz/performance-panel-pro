@@ -57,9 +57,59 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Floating orbs */}
+        <div 
+          className="absolute w-96 h-96 rounded-full opacity-20 blur-3xl animate-pulse-slow"
+          style={{
+            background: "radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)",
+            top: "-10%",
+            right: "-10%",
+          }}
+        />
+        <div 
+          className="absolute w-80 h-80 rounded-full opacity-15 blur-3xl animate-pulse-slow"
+          style={{
+            background: "radial-gradient(circle, hsl(var(--secondary)) 0%, transparent 70%)",
+            bottom: "-5%",
+            left: "-10%",
+            animationDelay: "1s",
+          }}
+        />
+        <div 
+          className="absolute w-64 h-64 rounded-full opacity-10 blur-2xl animate-float"
+          style={{
+            background: "radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)",
+            top: "40%",
+            left: "10%",
+            animationDelay: "0.5s",
+          }}
+        />
+        
+        {/* Grid pattern */}
+        <div 
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: `
+              linear-gradient(hsl(var(--primary)) 1px, transparent 1px),
+              linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)
+            `,
+            backgroundSize: "50px 50px",
+          }}
+        />
+        
+        {/* Animated lines */}
+        <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent animate-pulse-slow" />
+        <div 
+          className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-secondary/20 to-transparent animate-pulse-slow"
+          style={{ animationDelay: "1.5s" }}
+        />
+      </div>
+
       <div
-        className="w-full max-w-sm opacity-0 animate-fade-in"
+        className="w-full max-w-sm opacity-0 animate-fade-in relative z-10"
         style={{ animationFillMode: "forwards" }}
       >
         <div className="text-center mb-8">
@@ -71,7 +121,7 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
           </p>
         </div>
 
-        <div className="card-gaming rounded-xl p-6">
+        <div className="card-gaming rounded-xl p-6 backdrop-blur-sm">
           <div className="flex items-center gap-2 mb-4">
             <Key className="w-5 h-5 text-primary" />
             <h2 className="text-foreground font-semibold">Acesso ao Painel</h2>
@@ -96,7 +146,7 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
             <Button
               onClick={handleLogin}
               disabled={isLoading}
-              className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+              className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold shadow-[0_0_14px_hsl(var(--primary)/0.4)]"
             >
               {isLoading ? "Verificando..." : "Entrar"}
             </Button>

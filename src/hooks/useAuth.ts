@@ -17,8 +17,8 @@ export const useAuth = () => {
 
   // Validate session on mount and periodically
   const validateSession = useCallback(async () => {
-    const sessionToken = localStorage.getItem(SESSION_KEY);
-    const sessionExpiry = localStorage.getItem(SESSION_EXPIRY_KEY);
+    const sessionToken = sessionStorage.getItem(SESSION_KEY);
+    const sessionExpiry = sessionStorage.getItem(SESSION_EXPIRY_KEY);
 
     if (!sessionToken || !sessionExpiry) {
       setAuthState({ isAuthenticated: false, isLoading: false });
@@ -27,8 +27,8 @@ export const useAuth = () => {
 
     // Quick client-side expiry check
     if (new Date(sessionExpiry) < new Date()) {
-      localStorage.removeItem(SESSION_KEY);
-      localStorage.removeItem(SESSION_EXPIRY_KEY);
+      sessionStorage.removeItem(SESSION_KEY);
+      sessionStorage.removeItem(SESSION_EXPIRY_KEY);
       setAuthState({ isAuthenticated: false, isLoading: false });
       return false;
     }
@@ -40,8 +40,8 @@ export const useAuth = () => {
       });
 
       if (error || !data?.valid) {
-        localStorage.removeItem(SESSION_KEY);
-        localStorage.removeItem(SESSION_EXPIRY_KEY);
+        sessionStorage.removeItem(SESSION_KEY);
+        sessionStorage.removeItem(SESSION_EXPIRY_KEY);
         setAuthState({ isAuthenticated: false, isLoading: false });
         return false;
       }
@@ -78,8 +78,8 @@ export const useAuth = () => {
       }
 
       if (data?.valid && data?.sessionToken) {
-        localStorage.setItem(SESSION_KEY, data.sessionToken);
-        localStorage.setItem(SESSION_EXPIRY_KEY, data.expiresAt);
+        sessionStorage.setItem(SESSION_KEY, data.sessionToken);
+        sessionStorage.setItem(SESSION_EXPIRY_KEY, data.expiresAt);
         setAuthState({ isAuthenticated: true, isLoading: false });
         return { success: true };
       }
@@ -91,7 +91,7 @@ export const useAuth = () => {
   };
 
   const logout = async () => {
-    const sessionToken = localStorage.getItem(SESSION_KEY);
+    const sessionToken = sessionStorage.getItem(SESSION_KEY);
 
     if (sessionToken) {
       try {
@@ -103,8 +103,8 @@ export const useAuth = () => {
       }
     }
 
-    localStorage.removeItem(SESSION_KEY);
-    localStorage.removeItem(SESSION_EXPIRY_KEY);
+    sessionStorage.removeItem(SESSION_KEY);
+    sessionStorage.removeItem(SESSION_EXPIRY_KEY);
     setAuthState({ isAuthenticated: false, isLoading: false });
   };
 

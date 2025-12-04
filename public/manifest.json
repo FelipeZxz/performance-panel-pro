@@ -1,7 +1,7 @@
 {
-  "name": "SnTx Painel",
+  "name": "Auxílio SnTx",
   "short_name": "SnTx",
-  "description": "SnTx Painel - Gaming Performance Tool",
+  "description": "Auxílio SnTx - Gaming Performance Tool",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",

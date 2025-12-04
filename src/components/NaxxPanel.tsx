@@ -1,13 +1,21 @@
-import { useState } from "react";
 import { LoginPage } from "./LoginPage";
 import { DashboardPanel } from "./DashboardPanel";
+import { useAuth } from "@/hooks/useAuth";
 
 export const NaxxPanel = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isAuthenticated, isLoading, login, logout } = useAuth();
 
-  if (!isLoggedIn) {
-    return <LoginPage onLogin={() => setIsLoggedIn(true)} />;
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="animate-pulse text-muted-foreground">Carregando...</div>
+      </div>
+    );
   }
 
-  return <DashboardPanel onLogout={() => setIsLoggedIn(false)} />;
+  if (!isAuthenticated) {
+    return <LoginPage onLogin={login} />;
+  }
+
+  return <DashboardPanel onLogout={logout} />;
 };

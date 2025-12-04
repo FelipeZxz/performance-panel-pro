@@ -86,7 +86,7 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
         </div>
 
         <p className="text-center text-muted-foreground text-xs mt-4">
-          Versão 2.0 • Desenvolvido por FlpX
+          Versão 2.0 • Desenvolvido por Felipe
         </p>
       </div>
     </div>

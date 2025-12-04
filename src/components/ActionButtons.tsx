@@ -92,7 +92,7 @@ export const ActionButtons = ({ onLogout }: ActionButtonsProps) => {
 
       {/* Dialog para escolher versão do jogo */}
       <Dialog open={showGameDialog} onOpenChange={setShowGameDialog}>
-        <DialogContent className="max-w-sm bg-zinc-900 border-zinc-800">
+        <DialogContent className="max-w-sm bg-card border-border">
           <DialogHeader>
             <DialogTitle className="text-center text-foreground">
               Escolha a versão
@@ -105,7 +105,7 @@ export const ActionButtons = ({ onLogout }: ActionButtonsProps) => {
           <div className="grid grid-cols-2 gap-3 mt-4">
             <Button
               onClick={() => openGame("normal")}
-              className="h-20 flex-col gap-2 bg-orange-600 hover:bg-orange-700 text-white"
+              className="h-20 flex-col gap-2 bg-primary hover:bg-primary/90 text-primary-foreground shadow-[0_0_12px_hsl(var(--primary)/0.4)]"
             >
               <Gamepad2 className="w-6 h-6" />
               <span className="text-sm font-semibold">Free Fire</span>
@@ -113,7 +113,7 @@ export const ActionButtons = ({ onLogout }: ActionButtonsProps) => {
 
             <Button
               onClick={() => openGame("max")}
-              className="h-20 flex-col gap-2 bg-purple-600 hover:bg-purple-700 text-white"
+              className="h-20 flex-col gap-2 bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-[0_0_12px_hsl(var(--secondary)/0.4)]"
             >
               <Gamepad2 className="w-6 h-6" />
               <span className="text-sm font-semibold">Free Fire Max</span>

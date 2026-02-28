@@ -29,36 +29,7 @@ export const ActionButtons = ({ onLogout }: ActionButtonsProps) => {
   };
 
   const handleInjectionComplete = () => {
-    const gameType = injecting;
-    setInjecting(null);
-
-    if (!gameType) return;
-
-    const deepLinks = {
-      normal: {
-        scheme: "freefireth://",
-        fallback: "intent://launch#Intent;package=com.dts.freefireth;end",
-      },
-      max: {
-        scheme: "freefiremax://",
-        fallback: "intent://launch#Intent;package=com.dts.freefiremax;end",
-      },
-    };
-
-    const selected = deepLinks[gameType];
-    const gameName = gameType === "normal" ? "Free Fire" : "Free Fire Max";
-
-    const iframe = document.createElement("iframe");
-    iframe.style.display = "none";
-    iframe.src = selected.scheme;
-    document.body.appendChild(iframe);
-
-    setTimeout(() => {
-      document.body.removeChild(iframe);
-      window.location.href = selected.fallback;
-    }, 500);
-
-    toast.success(`Abra o ${gameName}`);
+    // Stay on success screen - user must refresh to go back
   };
 
   if (injecting) {

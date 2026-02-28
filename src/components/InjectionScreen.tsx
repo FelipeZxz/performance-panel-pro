@@ -166,15 +166,12 @@ export const InjectionScreen = ({ gameType, onComplete }: InjectionScreenProps) 
             >
               Abra o {gameName}
             </p>
-            {/* Back button */}
-            <div style={{ animation: "fade-in 0.5s ease-out 0.7s both" }}>
-              <button
-                onClick={onComplete}
-                className="px-6 py-2 rounded-lg bg-muted hover:bg-muted/80 text-foreground font-semibold transition-all text-sm border border-border"
-              >
-                Voltar
-              </button>
-            </div>
+            <p
+              className="text-muted-foreground text-xs mt-2"
+              style={{ animation: "fade-in 0.5s ease-out 0.7s both" }}
+            >
+              Atualize a página para voltar ao menu
+            </p>
           </div>
         )}
       </div>

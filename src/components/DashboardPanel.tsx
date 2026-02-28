@@ -28,25 +28,12 @@ export const DashboardPanel = ({ onLogout }: DashboardPanelProps) => {
           </h1>
         </div>
 
-        {/* Performance Monitor */}
         <PerformanceMonitor maxFPS={selectedFPS} />
-
-        {/* FPS Selector */}
         <FPSBadge selectedFPS={selectedFPS} onFPSChange={setSelectedFPS} />
-
-        {/* Sensitivity Generator */}
         <SensitivityGenerator />
-
-        {/* Extra Toggles */}
         <ExtraToggles />
-
-        {/* Delay Optimizer */}
         <DelayOptimizer />
-
-        {/* FF Optimizer */}
         <FFOptimizer />
-
-        {/* Buttons */}
         <ActionButtons onLogout={onLogout} />
 
       </div>

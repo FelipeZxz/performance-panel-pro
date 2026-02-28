@@ -58,7 +58,7 @@ export const ActionButtons = ({ onLogout }: ActionButtonsProps) => {
       window.location.href = selected.fallback;
     }, 500);
 
-    toast.success(`Abrindo ${gameName}...`);
+    toast.success(`Abra o ${gameName}`);
   };
 
   if (injecting) {

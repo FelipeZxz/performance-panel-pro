@@ -1,8 +1,6 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { Search } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -91,23 +89,13 @@ const generateSensitivity = (brand: string): SensitivityResult => {
 export const SensitivityGenerator = () => {
   const [brand, setBrand] = useState<string>("");
   const [model, setModel] = useState<string>("");
-  const [modelSearch, setModelSearch] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [result, setResult] = useState<SensitivityResult | null>(null);
   const [visibleItems, setVisibleItems] = useState(0);
 
-  const filteredModels = useMemo(() => {
-    const models = brandModels[brand] || [];
-    if (!modelSearch.trim()) return models;
-    return models.filter((m) =>
-      m.toLowerCase().includes(modelSearch.toLowerCase())
-    );
-  }, [brand, modelSearch]);
-
   const handleBrandChange = (value: string) => {
     setBrand(value);
     setModel("");
-    setModelSearch("");
     setResult(null);
     setVisibleItems(0);
   };
@@ -177,29 +165,14 @@ export const SensitivityGenerator = () => {
       {brand && (
         <>
           <p className="text-muted-foreground text-sm mb-2">Modelo</p>
-          <div className="relative mb-2">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input
-              placeholder="Pesquisar modelo..."
-              value={modelSearch}
-              onChange={(e) => setModelSearch(e.target.value)}
-              className="pl-9 bg-muted border-border text-sm"
-            />
-          </div>
           <Select value={model} onValueChange={handleModelChange}>
             <SelectTrigger className="w-full mb-4 bg-muted border-border">
               <SelectValue placeholder="Selecione o modelo" />
             </SelectTrigger>
             <SelectContent className="bg-card border-border max-h-60">
-              {filteredModels.length > 0 ? (
-                filteredModels.map((m) => (
-                  <SelectItem key={m} value={m}>{m}</SelectItem>
-                ))
-              ) : (
-                <div className="py-3 text-center text-sm text-muted-foreground">
-                  Nenhum modelo encontrado
-                </div>
-              )}
+              {(brandModels[brand] || []).map((m) => (
+                <SelectItem key={m} value={m}>{m}</SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </>

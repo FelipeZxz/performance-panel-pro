@@ -100,12 +100,6 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
         style={{ animationFillMode: "forwards" }}
       >
         <div className="text-center mb-8">
-          <h1 className="title-gradient font-display text-3xl font-bold tracking-wider mb-2">
-            Wink Painel
-          </h1>
-          <p className="text-muted-foreground text-sm">
-            Assistente de Mira Para Free Fire.
-          </p>
         </div>
 
         <div className="card-gaming rounded-xl p-6 backdrop-blur-sm">
@@ -141,7 +135,7 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
         </div>
 
         <p className="text-center text-muted-foreground text-xs mt-4">
-          Versão 0.1 • Desenvolvido por Twink
+          Versão 0.1
         </p>
       </div>
     </div>

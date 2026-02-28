@@ -4,6 +4,7 @@ import { PerformanceMonitor } from "./PerformanceMonitor";
 import { SensitivityGenerator } from "./SensitivityGenerator";
 import { DelayOptimizer } from "./DelayOptimizer";
 import { FFOptimizer } from "./FFOptimizer";
+import { ExtraToggles } from "./ExtraToggles";
 import { ActionButtons } from "./ActionButtons";
 
 interface DashboardPanelProps {
@@ -35,6 +36,9 @@ export const DashboardPanel = ({ onLogout }: DashboardPanelProps) => {
 
         {/* Sensitivity Generator */}
         <SensitivityGenerator />
+
+        {/* Extra Toggles */}
+        <ExtraToggles />
 
         {/* Delay Optimizer */}
         <DelayOptimizer />

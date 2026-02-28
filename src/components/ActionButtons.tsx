@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 import { LogOut, Gamepad2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,21 +29,30 @@ export const ActionButtons = ({ onLogout }: ActionButtonsProps) => {
     setInjecting(gameType);
   };
 
+  useEffect(() => {
+    if (injecting) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+    };
+  }, [injecting]);
+
   const handleInjectionComplete = () => {
     // Stay on success screen - user must refresh to go back
   };
 
-  if (injecting) {
-    return (
-      <InjectionScreen
-        gameType={injecting}
-        onComplete={handleInjectionComplete}
-      />
-    );
-  }
-
   return (
     <>
+      {injecting && ReactDOM.createPortal(
+        <InjectionScreen
+          gameType={injecting}
+          onComplete={handleInjectionComplete}
+        />,
+        document.body
+      )}
       <div
         className="space-y-3 opacity-0 animate-slide-up"
         style={{ animationDelay: "600ms", animationFillMode: "forwards" }}

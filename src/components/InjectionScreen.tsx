@@ -167,7 +167,7 @@ export const InjectionScreen = ({ gameType, onComplete }: InjectionScreenProps) 
                 animation: "fade-in 0.5s ease-out 0.5s both",
               }}
             >
-              Abrindo {gameName}...
+              Abra o {gameName}
             </p>
             {/* Loading dots */}
             <div className="flex justify-center gap-2" style={{ animation: "fade-in 0.5s ease-out 0.7s both" }}>

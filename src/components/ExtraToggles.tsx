@@ -47,7 +47,7 @@ export const ExtraToggles = () => {
   };
 
   return (
-    <div className="space-y-1">
+    <div className="space-y-4">
       {options.map((opt, i) => (
         <div
           key={opt.id}

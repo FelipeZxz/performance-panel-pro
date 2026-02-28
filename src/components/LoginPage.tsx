@@ -101,7 +101,7 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
       >
         <div className="text-center mb-8">
           <h1 className="title-gradient font-display text-3xl font-bold tracking-wider mb-2">
-            Acesso ao Painel
+            Wink Painel
           </h1>
           <p className="text-muted-foreground text-sm">
             Assistente de Mira Para Free Fire.
@@ -111,7 +111,7 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
         <div className="card-gaming rounded-xl p-6 backdrop-blur-sm">
           <div className="flex items-center gap-2 mb-4">
             <Key className="w-5 h-5 text-primary" />
-            <h2 className="text-foreground font-semibold">Acesso ao Painel</h2>
+            <h2 className="text-foreground font-semibold">Wink Painel</h2>
           </div>
 
           <div className="space-y-4">
@@ -141,7 +141,7 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
         </div>
 
         <p className="text-center text-muted-foreground text-xs mt-4">
-          Versão 2.0 • Desenvolvido por Felipe
+          Versão 2.0 • Desenvolvido por Twink
         </p>
       </div>
     </div>

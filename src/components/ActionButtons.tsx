@@ -9,6 +9,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import { InjectionScreen } from "./InjectionScreen";
 
 interface ActionButtonsProps {
   onLogout: () => void;
@@ -16,12 +17,23 @@ interface ActionButtonsProps {
 
 export const ActionButtons = ({ onLogout }: ActionButtonsProps) => {
   const [showGameDialog, setShowGameDialog] = useState(false);
+  const [injecting, setInjecting] = useState<"normal" | "max" | null>(null);
 
   const handleInject = () => {
     setShowGameDialog(true);
   };
 
   const openGame = (gameType: "normal" | "max") => {
+    setShowGameDialog(false);
+    setInjecting(gameType);
+  };
+
+  const handleInjectionComplete = () => {
+    const gameType = injecting;
+    setInjecting(null);
+
+    if (!gameType) return;
+
     const deepLinks = {
       normal: {
         scheme: "freefireth://",
@@ -36,21 +48,27 @@ export const ActionButtons = ({ onLogout }: ActionButtonsProps) => {
     const selected = deepLinks[gameType];
     const gameName = gameType === "normal" ? "Free Fire" : "Free Fire Max";
 
-    // Try deep link first
     const iframe = document.createElement("iframe");
     iframe.style.display = "none";
     iframe.src = selected.scheme;
     document.body.appendChild(iframe);
 
-    // Fallback for Android intent
     setTimeout(() => {
       document.body.removeChild(iframe);
       window.location.href = selected.fallback;
     }, 500);
 
     toast.success(`Abrindo ${gameName}...`);
-    setShowGameDialog(false);
   };
+
+  if (injecting) {
+    return (
+      <InjectionScreen
+        gameType={injecting}
+        onComplete={handleInjectionComplete}
+      />
+    );
+  }
 
   return (
     <>
@@ -58,7 +76,6 @@ export const ActionButtons = ({ onLogout }: ActionButtonsProps) => {
         className="space-y-3 opacity-0 animate-slide-up"
         style={{ animationDelay: "600ms", animationFillMode: "forwards" }}
       >
-        {/* Botão Injetar - Neon Vermelho */}
         <Button
           onClick={handleInject}
           className="
@@ -73,7 +90,6 @@ export const ActionButtons = ({ onLogout }: ActionButtonsProps) => {
           Injetar
         </Button>
 
-        {/* Botão Sair - Cinza Escuro com Borda Fina */}
         <Button
           onClick={onLogout}
           variant="secondary"
@@ -90,7 +106,6 @@ export const ActionButtons = ({ onLogout }: ActionButtonsProps) => {
         </Button>
       </div>
 
-      {/* Dialog para escolher versão do jogo */}
       <Dialog open={showGameDialog} onOpenChange={setShowGameDialog}>
         <DialogContent className="max-w-sm bg-card border-border">
           <DialogHeader>

@@ -53,7 +53,7 @@ export const InjectionScreen = ({ gameType, onComplete }: InjectionScreenProps) 
   }, [done, handleComplete]);
 
   return (
-    <div className="fixed inset-0 z-50 bg-background flex items-center justify-center overflow-hidden">
+    <div className="fixed inset-0 z-[9999] bg-background flex items-center justify-center overflow-hidden" style={{ top: 0, left: 0, right: 0, bottom: 0, width: '100vw', height: '100vh' }}>
       {/* Animated background particles */}
       <div className="absolute inset-0 overflow-hidden">
         {Array.from({ length: 20 }).map((_, i) => (

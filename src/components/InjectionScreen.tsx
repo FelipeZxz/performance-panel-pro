@@ -26,10 +26,7 @@ export const InjectionScreen = ({ gameType, onComplete }: InjectionScreenProps) 
 
   const handleComplete = useCallback(() => {
     setDone(true);
-    setTimeout(() => {
-      onComplete();
-    }, 2500);
-  }, [onComplete]);
+  }, []);
 
   useEffect(() => {
     if (done) return;
@@ -169,18 +166,14 @@ export const InjectionScreen = ({ gameType, onComplete }: InjectionScreenProps) 
             >
               Abra o {gameName}
             </p>
-            {/* Loading dots */}
-            <div className="flex justify-center gap-2" style={{ animation: "fade-in 0.5s ease-out 0.7s both" }}>
-              {[0, 1, 2].map((i) => (
-                <span
-                  key={i}
-                  className="w-2 h-2 rounded-full bg-green-500"
-                  style={{
-                    animation: "pulse 1s ease-in-out infinite",
-                    animationDelay: `${i * 0.2}s`,
-                  }}
-                />
-              ))}
+            {/* Back button */}
+            <div style={{ animation: "fade-in 0.5s ease-out 0.7s both" }}>
+              <button
+                onClick={onComplete}
+                className="px-6 py-2 rounded-lg bg-muted hover:bg-muted/80 text-foreground font-semibold transition-all text-sm border border-border"
+              >
+                Voltar
+              </button>
             </div>
           </div>
         )}

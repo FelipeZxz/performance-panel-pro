@@ -140,11 +140,11 @@ export const InjectionScreen = ({ gameType, onComplete }: InjectionScreenProps) 
                   animation: "scale-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
                 }}
               >
-                <CheckCircle className="w-20 h-20 text-green-500" />
+                <CheckCircle className="w-20 h-20 text-primary" />
                 <div
                   className="absolute inset-0 rounded-full"
                   style={{
-                    boxShadow: "0 0 40px hsl(142 76% 36% / 0.5)",
+                    boxShadow: "0 0 40px hsl(235 86% 65% / 0.5)",
                     animation: "glow 1s ease-in-out infinite alternate",
                   }}
                 />

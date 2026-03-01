@@ -4,25 +4,25 @@
 
 @layer base {
   :root {
-    --background: 0 0% 5%;
-    --foreground: 0 0% 95%;
+    --background: 228 12% 8%;
+    --foreground: 220 13% 91%;
 
-    --card: 0 0% 8%;
-    --card-foreground: 0 0% 95%;
+    --card: 228 12% 11%;
+    --card-foreground: 220 13% 91%;
 
-    --popover: 0 0% 8%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 228 12% 11%;
+    --popover-foreground: 220 13% 91%;
 
-    --primary: 0 90% 55%;
+    --primary: 235 86% 65%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 350 70% 50%;
+    --secondary: 235 60% 50%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 55%;
+    --muted: 228 12% 17%;
+    --muted-foreground: 228 10% 50%;
 
-    --accent: 0 100% 50%;
+    --accent: 235 100% 65%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
@@ -31,30 +31,30 @@
     --success: 142 76% 36%;
     --success-foreground: 0 0% 100%;
 
-    --border: 0 0% 20%;
-    --input: 0 0% 12%;
-    --ring: 0 100% 50%;
+    --border: 228 12% 22%;
+    --input: 228 12% 14%;
+    --ring: 235 86% 65%;
 
     --radius: 0.75rem;
 
-    /* Red Neon Theme */
-    --neon-purple: 0 100% 60%;
-    --neon-pink: 350 100% 60%;
-    --neon-orange: 0 100% 55%;
-    --chart-fps: 0 100% 55%;
+    /* Discord Blue Theme */
+    --neon-purple: 235 86% 65%;
+    --neon-pink: 235 60% 55%;
+    --neon-orange: 235 86% 65%;
+    --chart-fps: 235 86% 65%;
     --chart-cpu: 180 70% 50%;
     --chart-gpu: 140 70% 50%;
-    --glow-purple: 0 100% 50%;
+    --glow-purple: 235 86% 65%;
 
-    /* Gradients Red Neon */
-    --gradient-orange: linear-gradient(135deg, hsl(0, 100%, 50%) 0%, hsl(350, 80%, 55%) 100%);
-    --gradient-purple: linear-gradient(135deg, hsl(350, 60%, 40%) 0%, hsl(0, 60%, 45%) 100%);
-    --gradient-card: linear-gradient(180deg, hsl(0, 0%, 10%) 0%, hsl(0, 0%, 6%) 100%);
+    /* Gradients Discord Blue */
+    --gradient-orange: linear-gradient(135deg, hsl(235, 86%, 65%) 0%, hsl(235, 60%, 50%) 100%);
+    --gradient-purple: linear-gradient(135deg, hsl(235, 50%, 40%) 0%, hsl(235, 60%, 50%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(228, 12%, 13%) 0%, hsl(228, 12%, 9%) 100%);
   }
 
   .dark {
-    --background: 0 0% 5%;
-    --foreground: 0 0% 95%;
+    --background: 228 12% 8%;
+    --foreground: 220 13% 91%;
   }
 }
 
@@ -79,23 +79,23 @@
 
   .card-gaming {
     background: var(--gradient-card);
-    border: 1px solid hsl(0, 0%, 20%);
+    border: 1px solid hsl(228, 12%, 22%);
     box-shadow: 
-      0 0 20px hsl(0, 0%, 0% / 0.3),
-      inset 0 1px 0 hsl(0, 0%, 20% / 0.3);
+      0 0 20px hsl(228, 12%, 0% / 0.3),
+      inset 0 1px 0 hsl(228, 12%, 22% / 0.3);
   }
 
   .card-gaming-inner {
-    background: hsl(0, 0%, 8%);
-    border: 1px solid hsl(0, 0%, 18%);
+    background: hsl(228, 12%, 10%);
+    border: 1px solid hsl(228, 12%, 20%);
   }
 
   .glow-border {
-    box-shadow: 0 0 15px hsl(0, 100%, 50% / 0.3);
+    box-shadow: 0 0 15px hsl(235, 86%, 65% / 0.3);
   }
 
   .switch-gaming {
-    background: hsl(0, 60%, 35%);
+    background: hsl(235, 40%, 35%);
   }
 
   .switch-gaming[data-state="checked"] {
@@ -103,8 +103,8 @@
   }
 
   .status-banner {
-    background: linear-gradient(90deg, hsl(350, 50%, 25%) 0%, hsl(0, 50%, 30%) 50%, hsl(350, 50%, 25%) 100%);
-    border: 1px solid hsl(0, 60%, 40%);
+    background: linear-gradient(90deg, hsl(235, 40%, 25%) 0%, hsl(235, 50%, 30%) 50%, hsl(235, 40%, 25%) 100%);
+    border: 1px solid hsl(235, 50%, 40%);
   }
 
   .section-title {
@@ -124,10 +124,10 @@
 
   @keyframes glow {
     from {
-      box-shadow: 0 0 10px hsl(0, 100%, 50% / 0.3);
+      box-shadow: 0 0 10px hsl(235, 86%, 65% / 0.3);
     }
     to {
-      box-shadow: 0 0 20px hsl(0, 100%, 50% / 0.5);
+      box-shadow: 0 0 20px hsl(235, 86%, 65% / 0.5);
     }
   }
 
@@ -142,5 +142,31 @@
 
   .animate-float {
     animation: float 3s ease-in-out infinite;
+  }
+
+  /* Toggle activation animation */
+  @keyframes toggle-activate {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.05); }
+    60% { transform: scale(0.97); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes status-slide-in {
+    0% { opacity: 0; transform: translateY(-8px) scale(0.95); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @keyframes status-slide-out {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-8px) scale(0.95); }
+  }
+
+  .animate-toggle-activate {
+    animation: toggle-activate 0.35s ease-out;
+  }
+
+  .animate-status-in {
+    animation: status-slide-in 0.3s ease-out forwards;
   }
 }

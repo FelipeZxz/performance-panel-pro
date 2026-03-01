@@ -61,10 +61,10 @@ export const ActionButtons = ({ onLogout }: ActionButtonsProps) => {
           onClick={handleInject}
           className="
             w-full h-12 text-base font-semibold 
-            bg-red-600 
-            hover:bg-red-700 
-            text-white
-            shadow-[0_0_14px_rgba(255,0,0,0.55)]
+            bg-primary 
+            hover:bg-primary/90 
+            text-primary-foreground
+            shadow-[0_0_14px_hsl(235_86%_65%/0.55)]
             transition-all
           "
         >

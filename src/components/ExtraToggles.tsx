@@ -15,23 +15,23 @@ const options: ToggleOption[] = [
   {
     id: "bypass",
     label: "Bypass",
-    description: "Ignora proteções do jogo",
+    description: "Ignora a proteção do jogo",
     icon: <Shield className="w-5 h-5 text-yellow-400" />,
-    activeText: "Ativo!",
+    activeText: "Ativado!",
   },
   {
     id: "input-lag",
     label: "Diminuir Input Lag",
-    description: "Reduz o atraso de entrada",
+    description: "Reduz o atraso de toques",
     icon: <Timer className="w-5 h-5 text-yellow-400" />,
-    activeText: "Aplicado!",
+    activeText: "Ativado!",
   },
   {
     id: "optimize",
     label: "Otimizar Dispositivo",
-    description: "Melhora performance geral",
+    description: "Otimiza o desempenho no jogo",
     icon: <Smartphone className="w-5 h-5 text-yellow-400" />,
-    activeText: "Otimizado!",
+    activeText: "Ativado!",
   },
 ];
 

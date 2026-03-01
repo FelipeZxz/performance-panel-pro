@@ -1,1 +1,1 @@
-Assistente de mira para Free Fire
+Assistente de mira para free fire

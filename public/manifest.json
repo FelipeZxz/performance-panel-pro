@@ -1,7 +1,7 @@
 {
-  "name": "Wink Painel",
-  "short_name": "Wink Painel",
-  "description": "Wink Painel - Gaming Performance Tool",
+  "name": "Wink",
+  "short_name": "Wink",
+  "description": "Wink - Gaming Performance Tool",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",

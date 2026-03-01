@@ -80,7 +80,7 @@ export const InjectionScreen = ({ gameType, onComplete }: InjectionScreenProps) 
                 <div
                   className="absolute inset-0 rounded-full"
                   style={{
-                    boxShadow: "0 0 30px hsl(0 100% 50% / 0.4)",
+                    boxShadow: "0 0 30px hsl(235 86% 65% / 0.4)",
                     animation: "glow 1.5s ease-in-out infinite alternate",
                   }}
                 />
@@ -98,7 +98,7 @@ export const InjectionScreen = ({ gameType, onComplete }: InjectionScreenProps) 
                 className="absolute top-0 left-0 h-3 rounded-full transition-all duration-300"
                 style={{
                   width: `${progress}%`,
-                  boxShadow: "0 0 15px hsl(0 100% 50% / 0.6)",
+                  boxShadow: "0 0 15px hsl(235 86% 65% / 0.6)",
                 }}
               />
             </div>

@@ -1,32 +1,32 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 export const DelayOptimizer = () => {
   const [isActive, setIsActive] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const handleToggle = () => {
+    cardRef.current?.classList.remove("animate-toggle-activate");
+    void cardRef.current?.offsetWidth;
+    cardRef.current?.classList.add("animate-toggle-activate");
     setIsActive(!isActive);
     toast.success(isActive ? "Delay desativado" : "Delay ativado!");
   };
 
   return (
     <div
+      ref={cardRef}
       className="card-gaming rounded-xl p-4 opacity-0 animate-slide-up mb-1"
       style={{ animationDelay: "300ms", animationFillMode: "forwards" }}
     >
-      <div className="flex items-start justify-between mb-1">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Zap className="w-5 h-5 text-yellow-400" />
-          <div>
-            <h3 className="text-foreground font-semibold text-base">
-              Diminuir Delay
-            </h3>
-            <p className="text-muted-foreground text-sm">
-              Reduz o delay do toque
-            </p>
-          </div>
+          <Zap className="w-5 h-5 text-primary" />
+          <h3 className="text-foreground font-semibold text-base">
+            Diminuir Delay
+          </h3>
         </div>
 
         <Button
@@ -43,7 +43,7 @@ export const DelayOptimizer = () => {
       </div>
 
       {isActive && (
-        <div className="card-gaming-inner rounded-lg px-4 py-3 flex items-center gap-2">
+        <div className="card-gaming-inner rounded-lg px-4 py-3 flex items-center gap-2 mt-3 animate-status-in">
           <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
           <span className="text-green-400">Aplicado</span>
         </div>

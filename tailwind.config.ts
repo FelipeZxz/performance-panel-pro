@@ -88,10 +88,10 @@ export default {
           "0%": { opacity: "0", transform: "translateY(20px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
-        "pulse-glow": {
-          "0%, 100%": { boxShadow: "0 0 10px hsl(280, 100%, 50% / 0.3)" },
-          "50%": { boxShadow: "0 0 25px hsl(280, 100%, 50% / 0.6)" },
-        },
+         "pulse-glow": {
+           "0%, 100%": { boxShadow: "0 0 10px hsl(235, 86%, 65% / 0.3)" },
+           "50%": { boxShadow: "0 0 25px hsl(235, 86%, 65% / 0.6)" },
+         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",

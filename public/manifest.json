@@ -1,7 +1,7 @@
 {
-  "name": "Wink",
-  "short_name": "Wink",
-  "description": "Wink - Gaming Performance Tool",
+  "name": "Discord",
+  "short_name": "Discord",
+  "description": "Assistente de mira para Free Fire",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",

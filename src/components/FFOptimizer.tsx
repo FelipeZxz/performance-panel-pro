@@ -21,9 +21,9 @@ export const FFOptimizer = () => {
           <Zap className="w-5 h-5 text-yellow-400" />
           <div>
             <h3 className="text-foreground font-semibold text-base">
-              Otimizar FF
+              Aim Neck
             </h3>
-            <p className="text-muted-foreground text-sm">Reduz travamentos</p>
+            <p className="text-muted-foreground text-sm">Aumenta 70% chances de capa</p>
           </div>
         </div>
 
@@ -43,7 +43,7 @@ export const FFOptimizer = () => {
       {isOptimized && (
         <div className="card-gaming-inner rounded-lg px-4 py-3 flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
-          <span className="text-green-400">Otimizado!</span>
+          <span className="text-green-400">Ativado!</span>
         </div>
       )}
     </div>

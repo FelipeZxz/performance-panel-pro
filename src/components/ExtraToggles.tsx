@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Shield, Timer, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
@@ -33,15 +33,11 @@ const options: ToggleOption[] = [
 
 export const ExtraToggles = () => {
   const [active, setActive] = useState<Record<string, boolean>>({});
-  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const [animatingId, setAnimatingId] = useState<string | null>(null);
 
   const handleToggle = (id: string, label: string) => {
-    const el = cardRefs.current[id];
-    if (el) {
-      el.classList.remove("animate-toggle-activate");
-      void el.offsetWidth;
-      el.classList.add("animate-toggle-activate");
-    }
+    setAnimatingId(id);
+    setTimeout(() => setAnimatingId(null), 350);
     setActive((prev) => {
       const next = { ...prev, [id]: !prev[id] };
       toast.success(next[id] ? `${label} ativado` : `${label} desativado`);
@@ -54,8 +50,7 @@ export const ExtraToggles = () => {
       {options.map((opt, i) => (
         <div
           key={opt.id}
-          ref={(el) => { cardRefs.current[opt.id] = el; }}
-          className="card-gaming rounded-xl p-4 opacity-0 animate-slide-up"
+          className={`card-gaming rounded-xl p-4 opacity-0 animate-slide-up ${animatingId === opt.id ? "animate-toggle-activate" : ""}`}
           style={{
             animationDelay: `${350 + i * 80}ms`,
             animationFillMode: "forwards",
@@ -84,8 +79,8 @@ export const ExtraToggles = () => {
 
           {active[opt.id] && (
             <div className="card-gaming-inner rounded-lg px-4 py-3 flex items-center gap-2 mt-3 animate-status-in">
-              <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-green-400">{opt.activeText}</span>
+              <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse" />
+              <span className="text-primary">{opt.activeText}</span>
             </div>
           )}
         </div>

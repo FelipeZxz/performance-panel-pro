@@ -66,8 +66,8 @@ export const PerformanceMonitor = ({ maxFPS }: PerformanceMonitorProps) => {
     return () => clearInterval(interval);
   }, [baseTime, maxFPS]);
 
-  const yAxisMax = maxFPS === 60 ? 80 : 140;
-  const yAxisTicks = maxFPS === 60 ? [0, 20, 40, 60, 80] : [0, 30, 60, 90, 120, 140];
+  const yAxisMax = maxFPS === 60 ? 80 : 130;
+  const yAxisTicks = maxFPS === 60 ? [0, 20, 40, 60, 80] : [0, 30, 60, 90, 120];
 
   return (
     <div
@@ -79,11 +79,9 @@ export const PerformanceMonitor = ({ maxFPS }: PerformanceMonitorProps) => {
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
             <defs>
-
-              {/* FPS AGORA EM VERMELHO */}
               <linearGradient id="fpsGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="hsl(0, 100%, 55%)" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="hsl(0, 100%, 55%)" stopOpacity={0} />
+                <stop offset="5%" stopColor="hsl(235, 86%, 65%)" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="hsl(235, 86%, 65%)" stopOpacity={0} />
               </linearGradient>
 
               <linearGradient id="cpuGradient" x1="0" y1="0" x2="0" y2="1">
@@ -95,18 +93,17 @@ export const PerformanceMonitor = ({ maxFPS }: PerformanceMonitorProps) => {
                 <stop offset="5%" stopColor="hsl(140, 70%, 50%)" stopOpacity={0.4} />
                 <stop offset="95%" stopColor="hsl(140, 70%, 50%)" stopOpacity={0} />
               </linearGradient>
-
             </defs>
 
             <XAxis
               dataKey="time"
-              stroke="hsl(0, 0%, 40%)"
+              stroke="hsl(228, 10%, 40%)"
               fontSize={10}
               tickLine={false}
               axisLine={false}
             />
             <YAxis
-              stroke="hsl(0, 0%, 40%)"
+              stroke="hsl(228, 10%, 40%)"
               fontSize={10}
               tickLine={false}
               axisLine={false}
@@ -115,19 +112,18 @@ export const PerformanceMonitor = ({ maxFPS }: PerformanceMonitorProps) => {
             />
             <Tooltip
               contentStyle={{
-                backgroundColor: "hsl(0, 0%, 10%)",
-                border: "1px solid hsl(0, 0%, 25%)",
+                backgroundColor: "hsl(228, 12%, 10%)",
+                border: "1px solid hsl(228, 12%, 25%)",
                 borderRadius: "8px",
                 fontSize: "12px",
               }}
-              labelStyle={{ color: "hsl(0, 0%, 80%)" }}
+              labelStyle={{ color: "hsl(228, 10%, 80%)" }}
             />
 
-            {/* FPS AGORA EM VERMELHO */}
             <Area
               type="monotone"
               dataKey="fps"
-              stroke="red"
+              stroke="hsl(235, 86%, 65%)"
               strokeWidth={2}
               fill="url(#fpsGradient)"
               dot={false}

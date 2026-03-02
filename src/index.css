@@ -140,6 +140,20 @@
     }
   }
 
+  @keyframes particle-drift {
+    0% {
+      transform: translate(0, 0);
+      opacity: 0.2;
+    }
+    50% {
+      opacity: 0.5;
+    }
+    100% {
+      transform: translate(15px, -20px);
+      opacity: 0.2;
+    }
+  }
+
   .animate-float {
     animation: float 3s ease-in-out infinite;
   }

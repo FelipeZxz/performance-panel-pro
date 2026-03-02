@@ -69,9 +69,9 @@ export const PerformanceMonitor = ({ maxFPS }: PerformanceMonitorProps) => {
     return () => clearInterval(interval);
   }, [baseTime, maxFPS]);
 
-  // 🔥 ALTERAÇÃO AQUI (fixo para ambos os modos)
+  // 🔥 ALTERAÇÃO AQUI
   const yAxisMax = 120;
-  const yAxisTicks = [0, 30, 60, 90, 120];
+  const yAxisTicks = [0, 30, 60, 120];
 
   return (
     <div
@@ -86,42 +86,18 @@ export const PerformanceMonitor = ({ maxFPS }: PerformanceMonitorProps) => {
           >
             <defs>
               <linearGradient id="fpsGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="hsl(235, 86%, 65%)"
-                  stopOpacity={0.4}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="hsl(235, 86%, 65%)"
-                  stopOpacity={0}
-                />
+                <stop offset="5%" stopColor="hsl(235, 86%, 65%)" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="hsl(235, 86%, 65%)" stopOpacity={0} />
               </linearGradient>
 
               <linearGradient id="cpuGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="hsl(180, 70%, 50%)"
-                  stopOpacity={0.4}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="hsl(180, 70%, 50%)"
-                  stopOpacity={0}
-                />
+                <stop offset="5%" stopColor="hsl(180, 70%, 50%)" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="hsl(180, 70%, 50%)" stopOpacity={0} />
               </linearGradient>
 
               <linearGradient id="gpuGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor="hsl(140, 70%, 50%)"
-                  stopOpacity={0.4}
-                />
-                <stop
-                  offset="95%"
-                  stopColor="hsl(140, 70%, 50%)"
-                  stopOpacity={0}
-                />
+                <stop offset="5%" stopColor="hsl(140, 70%, 50%)" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="hsl(140, 70%, 50%)" stopOpacity={0} />
               </linearGradient>
             </defs>
 

@@ -69,10 +69,6 @@ export const PerformanceMonitor = ({ maxFPS }: PerformanceMonitorProps) => {
     return () => clearInterval(interval);
   }, [baseTime, maxFPS]);
 
-  // 🔥 ALTERAÇÃO AQUI
-  const yAxisMax = 120;
-  const yAxisTicks = [0, 30, 60, 120];
-
   return (
     <div
       className="card-gaming rounded-xl p-4 opacity-0 animate-slide-up"
@@ -82,7 +78,7 @@ export const PerformanceMonitor = ({ maxFPS }: PerformanceMonitorProps) => {
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={data}
-            margin={{ top: 5, right: 5, left: -20, bottom: 5 }}
+            margin={{ top: 10, right: 10, left: 0, bottom: 5 }}
           >
             <defs>
               <linearGradient id="fpsGradient" x1="0" y1="0" x2="0" y2="1">
@@ -108,14 +104,17 @@ export const PerformanceMonitor = ({ maxFPS }: PerformanceMonitorProps) => {
               tickLine={false}
               axisLine={false}
             />
+
             <YAxis
               stroke="hsl(228, 10%, 40%)"
-              fontSize={10}
+              fontSize={11}
               tickLine={false}
               axisLine={false}
-              domain={[0, yAxisMax]}
-              ticks={yAxisTicks}
+              domain={[0, 120]}
+              ticks={[0, 30, 60, 120]}
+              width={30}
             />
+
             <Tooltip
               contentStyle={{
                 backgroundColor: "hsl(228, 12%, 10%)",
@@ -145,6 +144,7 @@ export const PerformanceMonitor = ({ maxFPS }: PerformanceMonitorProps) => {
               dot={false}
               animationDuration={300}
             />
+
             <Area
               type="monotone"
               dataKey="gpu"

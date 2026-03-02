@@ -24,12 +24,15 @@ const generateRandomData = (baseTime: number, maxFPS: number): DataPoint => {
   const seconds = baseTime % 60;
   const time = `${minutes}:${seconds.toString().padStart(2, "0")}`;
 
-  const fpsBase = maxFPS === 60 ? 45 : 90;
-  const fpsVariation = maxFPS === 60 ? 15 : 30;
+  // 🔥 FPS ajustado conforme pedido
+  const fps =
+    maxFPS === 60
+      ? Math.floor(60 + Math.random() * 6) // 60 ~ 65
+      : Math.floor(115 + Math.random() * 6); // 115 ~ 120
 
   return {
     time,
-    fps: Math.min(maxFPS, Math.floor(fpsBase + Math.random() * fpsVariation)),
+    fps,
     cpu: Math.floor(35 + Math.random() * 25),
     gpu: Math.floor(40 + Math.random() * 35),
   };
@@ -111,8 +114,8 @@ export const PerformanceMonitor = ({ maxFPS }: PerformanceMonitorProps) => {
               tickLine={false}
               axisLine={false}
               domain={[0, 120]}
-              ticks={[0, 30, 60, 120]}
-              width={30}
+              ticks={[0, 30, 60, 90, 120]}
+              width={35}
             />
 
             <Tooltip

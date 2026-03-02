@@ -9,7 +9,7 @@ interface ToggleOption {
 }
 
 const options: ToggleOption[] = [
-  { id: "bypass", label: "Bypass", icon: <Shield className="w-5 h-5 text-primary" /> },
+  { id: "bypass", label: "Calibrar Mira", icon: <Shield className="w-5 h-5 text-primary" /> },
   { id: "delay", label: "Diminuir Delay", icon: <Timer className="w-5 h-5 text-primary" /> },
   { id: "optimize", label: "Otimizar Dispositivo", icon: <Smartphone className="w-5 h-5 text-primary" /> },
 ];

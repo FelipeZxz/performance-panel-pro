@@ -1,6 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle, ShieldCheck } from "lucide-react";
 
 interface InjectionScreenProps {
   gameType: "normal" | "max";
@@ -16,6 +15,14 @@ const fakeFiles = [
   "damage_mod.val", "final_inject.exe",
 ];
 
+interface Particle {
+  id: number;
+  startX: number;
+  startY: number;
+  duration: number;
+  delay: number;
+}
+
 export const InjectionScreen = ({ gameType, onComplete }: InjectionScreenProps) => {
   const [progress, setProgress] = useState(0);
   const [currentFile, setCurrentFile] = useState(fakeFiles[0]);
@@ -23,6 +30,17 @@ export const InjectionScreen = ({ gameType, onComplete }: InjectionScreenProps) 
   const [fileHistory, setFileHistory] = useState<string[]>([]);
 
   const gameName = gameType === "normal" ? "Free Fire" : "Free Fire Max";
+
+  // Memoize particles so they don't re-randomize on every render
+  const particles = useMemo<Particle[]>(() =>
+    Array.from({ length: 20 }).map((_, i) => ({
+      id: i,
+      startX: Math.random() * 100,
+      startY: Math.random() * 100,
+      duration: 4 + Math.random() * 4,
+      delay: Math.random() * 3,
+    })), []
+  );
 
   const handleComplete = useCallback(() => {
     setDone(true);
@@ -54,17 +72,17 @@ export const InjectionScreen = ({ gameType, onComplete }: InjectionScreenProps) 
 
   return (
     <div className="fixed inset-0 z-[9999] bg-background flex items-center justify-center overflow-hidden" style={{ top: 0, left: 0, right: 0, bottom: 0, width: '100vw', height: '100vh' }}>
-      {/* Animated background particles */}
+      {/* Animated background particles - smooth drift */}
       <div className="absolute inset-0 overflow-hidden">
-        {Array.from({ length: 20 }).map((_, i) => (
+        {particles.map((p) => (
           <div
-            key={i}
+            key={p.id}
             className="absolute w-1 h-1 rounded-full bg-primary/30"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animation: `float ${2 + Math.random() * 3}s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 2}s`,
+              left: `${p.startX}%`,
+              top: `${p.startY}%`,
+              animation: `particle-drift ${p.duration}s ease-in-out infinite alternate`,
+              animationDelay: `${p.delay}s`,
             }}
           />
         ))}
@@ -73,31 +91,18 @@ export const InjectionScreen = ({ gameType, onComplete }: InjectionScreenProps) 
       <div className="max-w-sm w-full px-6 text-center space-y-6 relative z-10">
         {!done ? (
           <>
-            {/* Pulsing icon */}
-            <div className="flex justify-center">
-              <div className="relative">
-                <ShieldCheck className="w-16 h-16 text-primary animate-pulse" />
-                <div
-                  className="absolute inset-0 rounded-full"
-                  style={{
-                    boxShadow: "0 0 30px hsl(235 86% 65% / 0.4)",
-                    animation: "glow 1.5s ease-in-out infinite alternate",
-                  }}
-                />
-              </div>
-            </div>
-
             <h2 className="text-foreground text-xl font-bold">
               Injetando Arquivos...
             </h2>
 
-            {/* Progress bar with glow */}
+            {/* Progress bar with smooth transition */}
             <div className="relative">
-              <Progress value={progress} className="h-3 bg-muted" />
+              <Progress value={progress} className="h-3 bg-muted [&>div]:transition-[transform] [&>div]:duration-700 [&>div]:ease-out" />
               <div
-                className="absolute top-0 left-0 h-3 rounded-full transition-all duration-300"
+                className="absolute top-0 left-0 h-3 rounded-full pointer-events-none"
                 style={{
                   width: `${progress}%`,
+                  transition: "width 700ms ease-out",
                   boxShadow: "0 0 15px hsl(235 86% 65% / 0.6)",
                 }}
               />
@@ -132,26 +137,8 @@ export const InjectionScreen = ({ gameType, onComplete }: InjectionScreenProps) 
           </>
         ) : (
           <div className="space-y-4">
-            {/* Success animation */}
-            <div className="flex justify-center">
-              <div
-                className="relative"
-                style={{
-                  animation: "scale-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
-                }}
-              >
-                <CheckCircle className="w-20 h-20 text-primary" />
-                <div
-                  className="absolute inset-0 rounded-full"
-                  style={{
-                    boxShadow: "0 0 40px hsl(235 86% 65% / 0.5)",
-                    animation: "glow 1s ease-in-out infinite alternate",
-                  }}
-                />
-              </div>
-            </div>
             <h2
-              className="text-foreground text-xl font-bold"
+              className="text-primary text-2xl font-bold"
               style={{
                 animation: "fade-in 0.5s ease-out 0.3s both",
               }}

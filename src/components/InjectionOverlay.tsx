@@ -64,7 +64,7 @@ export const InjectionOverlay = ({ gameType, onComplete }: InjectionOverlayProps
           
           {isFinished && (
             <p className="text-zinc-500 text-base font-semibold tracking-widest uppercase animate-pulse">
-              Abra o jogo
+              ABRA O JOGO
             </p>
           )}
         </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ReactDOM from "react-dom";
 import { LogOut, Gamepad2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,56 +9,45 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { toast } from "sonner";
-import { InjectionScreen } from "./InjectionScreen";
+import { InjectionOverlay } from "./InjectionOverlay";
 
 interface ActionButtonsProps {
   onLogout: () => void;
+  onInjectStart?: () => void;
+  onInjectEnd?: () => void;
 }
 
-export const ActionButtons = ({ onLogout }: ActionButtonsProps) => {
+export const ActionButtons = ({ onLogout, onInjectStart, onInjectEnd }: ActionButtonsProps) => {
   const [showGameDialog, setShowGameDialog] = useState(false);
   const [injecting, setInjecting] = useState<"normal" | "max" | null>(null);
-
-  const handleInject = () => {
-    setShowGameDialog(true);
-  };
 
   const openGame = (gameType: "normal" | "max") => {
     setShowGameDialog(false);
     setInjecting(gameType);
+    onInjectStart?.();
   };
 
-  useEffect(() => {
-    if (injecting) {
-      document.body.style.overflow = 'hidden';
-      document.body.style.touchAction = 'none';
-    }
-    return () => {
-      document.body.style.overflow = '';
-      document.body.style.touchAction = '';
-    };
-  }, [injecting]);
-
   const handleInjectionComplete = () => {
-    // Stay on success screen - user must refresh to go back
+    setInjecting(null);
+    onInjectEnd?.();
   };
 
   return (
     <>
       {injecting && ReactDOM.createPortal(
-        <InjectionScreen
+        <InjectionOverlay
           gameType={injecting}
           onComplete={handleInjectionComplete}
         />,
         document.body
       )}
+
       <div
         className="space-y-3 opacity-0 animate-slide-up"
         style={{ animationDelay: "600ms", animationFillMode: "forwards" }}
       >
         <Button
-          onClick={handleInject}
+          onClick={() => setShowGameDialog(true)}
           className="
             w-full h-12 text-base font-semibold 
             bg-primary 

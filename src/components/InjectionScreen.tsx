@@ -92,7 +92,7 @@ export const InjectionScreen = ({ gameType, onComplete }: InjectionScreenProps) 
         {!done ? (
           <>
             <h2 className="text-foreground text-xl font-bold">
-              Injetando Arquivos...
+              Injetando Arquivos
             </h2>
 
             {/* Progress bar with smooth transition */}
@@ -143,7 +143,7 @@ export const InjectionScreen = ({ gameType, onComplete }: InjectionScreenProps) 
                 animation: "fade-in 0.5s ease-out 0.3s both",
               }}
             >
-              Injetado com sucesso!
+              Injetado com sucesso
             </h2>
             <p
               className="text-muted-foreground text-sm"
@@ -157,7 +157,7 @@ export const InjectionScreen = ({ gameType, onComplete }: InjectionScreenProps) 
               className="text-muted-foreground text-xs mt-2"
               style={{ animation: "fade-in 0.5s ease-out 0.7s both" }}
             >
-              mantenha aberto em segundo plano para um resultado melhor
+              auxílio rodando em segundo plano!
             </p>
           </div>
         )}

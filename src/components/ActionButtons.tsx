@@ -94,7 +94,7 @@ export const ActionButtons = ({ onLogout }: ActionButtonsProps) => {
               Escolha a versão
             </DialogTitle>
             <DialogDescription className="text-center text-muted-foreground">
-              Selecione qual Free Fire você quer abrir
+              Selecione em qual Free Fire você quer injetar
             </DialogDescription>
           </DialogHeader>
 

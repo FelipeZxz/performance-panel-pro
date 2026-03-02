@@ -57,7 +57,10 @@ export const PerformanceMonitor = ({ maxFPS }: PerformanceMonitorProps) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setData((prevData) => {
-        const newData = [...prevData.slice(1), generateRandomData(baseTime, maxFPS)];
+        const newData = [
+          ...prevData.slice(1),
+          generateRandomData(baseTime, maxFPS),
+        ];
         return newData;
       });
       setBaseTime((prev) => prev + 2);
@@ -66,32 +69,59 @@ export const PerformanceMonitor = ({ maxFPS }: PerformanceMonitorProps) => {
     return () => clearInterval(interval);
   }, [baseTime, maxFPS]);
 
-  const yAxisMax = maxFPS === 60 ? 90 : 120;
-  const yAxisTicks = maxFPS === 60 ? [0, 20, 40, 60, 90] : [0, 30, 60, 90, 120];
+  // 🔥 ALTERAÇÃO AQUI (fixo para ambos os modos)
+  const yAxisMax = 120;
+  const yAxisTicks = [0, 30, 60, 90, 120];
 
   return (
     <div
       className="card-gaming rounded-xl p-4 opacity-0 animate-slide-up"
       style={{ animationDelay: "100ms", animationFillMode: "forwards" }}
     >
-
       <div className="h-48 w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
+          <AreaChart
+            data={data}
+            margin={{ top: 5, right: 5, left: -20, bottom: 5 }}
+          >
             <defs>
               <linearGradient id="fpsGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="hsl(235, 86%, 65%)" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="hsl(235, 86%, 65%)" stopOpacity={0} />
+                <stop
+                  offset="5%"
+                  stopColor="hsl(235, 86%, 65%)"
+                  stopOpacity={0.4}
+                />
+                <stop
+                  offset="95%"
+                  stopColor="hsl(235, 86%, 65%)"
+                  stopOpacity={0}
+                />
               </linearGradient>
 
               <linearGradient id="cpuGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="hsl(180, 70%, 50%)" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="hsl(180, 70%, 50%)" stopOpacity={0} />
+                <stop
+                  offset="5%"
+                  stopColor="hsl(180, 70%, 50%)"
+                  stopOpacity={0.4}
+                />
+                <stop
+                  offset="95%"
+                  stopColor="hsl(180, 70%, 50%)"
+                  stopOpacity={0}
+                />
               </linearGradient>
 
               <linearGradient id="gpuGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="hsl(140, 70%, 50%)" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="hsl(140, 70%, 50%)" stopOpacity={0} />
+                <stop
+                  offset="5%"
+                  stopColor="hsl(140, 70%, 50%)"
+                  stopOpacity={0.4}
+                />
+                <stop
+                  offset="95%"
+                  stopColor="hsl(140, 70%, 50%)"
+                  stopOpacity={0}
+                />
               </linearGradient>
             </defs>
 

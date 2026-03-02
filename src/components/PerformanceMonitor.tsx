@@ -28,7 +28,7 @@ const generateRandomData = (baseTime: number, maxFPS: number): DataPoint => {
   const fps =
     maxFPS === 60
       ? Math.floor(60 + Math.random() * 20) // 60 ~ 80
-      : Math.floor(100 + Math.random() * 10); // 100 ~ 120
+      : Math.floor(105 + Math.random() * 30); // 100 ~ 120
 
   return {
     time,

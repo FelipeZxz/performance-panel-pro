@@ -66,8 +66,8 @@ export const PerformanceMonitor = ({ maxFPS }: PerformanceMonitorProps) => {
     return () => clearInterval(interval);
   }, [baseTime, maxFPS]);
 
-  const yAxisMax = maxFPS === 60 ? 80 : 130;
-  const yAxisTicks = maxFPS === 60 ? [0, 20, 40, 60, 80] : [0, 30, 60, 90, 120];
+  const yAxisMax = maxFPS === 60 ? 90 : 120;
+  const yAxisTicks = maxFPS === 60 ? [0, 20, 40, 60, 90] : [0, 30, 60, 90, 120];
 
   return (
     <div

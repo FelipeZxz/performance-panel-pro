@@ -1,16 +1,16 @@
-import { useState } from "react";
 import { Zap } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 
-export const DelayOptimizer = () => {
-  const [isActive, setIsActive] = useState(false);
+interface DelayOptimizerProps {
+  checked: boolean;
+  onCheckedChange: (checked: boolean) => void;
+}
 
-  const handleToggle = () => {
-    setIsActive((prev) => {
-      toast.success(!prev ? "Delay ativado!" : "Delay desativado");
-      return !prev;
-    });
+export const DelayOptimizer = ({ checked, onCheckedChange }: DelayOptimizerProps) => {
+  const handleToggle = (val: boolean) => {
+    onCheckedChange(val);
+    toast.success(val ? "Delay ativado!" : "Delay desativado");
   };
 
   return (
@@ -25,18 +25,7 @@ export const DelayOptimizer = () => {
             Diminuir Delay
           </h3>
         </div>
-
-        <Button
-          onClick={handleToggle}
-          size="sm"
-          className={
-            isActive
-              ? "bg-destructive hover:bg-destructive/90 text-destructive-foreground"
-              : "bg-success hover:bg-success/90 text-success-foreground"
-          }
-        >
-          {isActive ? "Desativar" : "Ativar"}
-        </Button>
+        <Switch checked={checked} onCheckedChange={handleToggle} />
       </div>
     </div>
   );

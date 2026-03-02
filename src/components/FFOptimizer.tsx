@@ -1,16 +1,16 @@
-import { useState } from "react";
 import { Zap } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 
-export const FFOptimizer = () => {
-  const [isOptimized, setIsOptimized] = useState(false);
+interface FFOptimizerProps {
+  checked: boolean;
+  onCheckedChange: (checked: boolean) => void;
+}
 
-  const handleToggle = () => {
-    setIsOptimized((prev) => {
-      toast.success(!prev ? "Aim Neck ativado!" : "Aim Neck desativado");
-      return !prev;
-    });
+export const FFOptimizer = ({ checked, onCheckedChange }: FFOptimizerProps) => {
+  const handleToggle = (val: boolean) => {
+    onCheckedChange(val);
+    toast.success(val ? "Aim Neck ativado!" : "Aim Neck desativado");
   };
 
   return (
@@ -25,18 +25,7 @@ export const FFOptimizer = () => {
             Aim Neck
           </h3>
         </div>
-
-        <Button
-          onClick={handleToggle}
-          size="sm"
-          className={
-            isOptimized
-              ? "bg-destructive hover:bg-destructive/90 text-destructive-foreground"
-              : "bg-success hover:bg-success/90 text-success-foreground"
-          }
-        >
-          {isOptimized ? "Desativar" : "Ativar"}
-        </Button>
+        <Switch checked={checked} onCheckedChange={handleToggle} />
       </div>
     </div>
   );

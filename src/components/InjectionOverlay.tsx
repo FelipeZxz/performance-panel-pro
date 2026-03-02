@@ -23,13 +23,17 @@ export const InjectionOverlay = ({ gameType, onComplete }: InjectionOverlayProps
       setCurrentStep(next);
 
       if (next >= steps.length) {
-        // Open game via deep link after a brief pause
+        // Abrir o jogo direto via intent Android
         setTimeout(() => {
-          const url =
+          const packageName =
             gameType === "normal"
-              ? "https://play.google.com/store/apps/details?id=com.dts.freefireth"
-              : "https://play.google.com/store/apps/details?id=com.dts.freefiremax";
-          window.open(url, "_blank");
+              ? "com.dts.freefireth"
+              : "com.dts.freefiremax";
+
+          const intentUrl = `intent://#Intent;package=${packageName};end`;
+
+          window.location.href = intentUrl;
+
           onComplete();
         }, 600);
       }
@@ -38,11 +42,10 @@ export const InjectionOverlay = ({ gameType, onComplete }: InjectionOverlayProps
     return () => clearTimeout(timer);
   }, [currentStep, gameType, onComplete]);
 
-  const isSuccess = currentStep >= steps.length - 1 && currentStep < steps.length
-    ? false
-    : currentStep >= steps.length;
-
-  const displayLabel = currentStep < steps.length ? steps[currentStep].label : "Sucesso!";
+  const displayLabel =
+    currentStep < steps.length
+      ? steps[currentStep].label
+      : "Sucesso!";
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center">
@@ -53,9 +56,8 @@ export const InjectionOverlay = ({ gameType, onComplete }: InjectionOverlayProps
         {/* Spinning circle */}
         <div className="relative w-24 h-24">
           {/* Outer ring */}
-          <div
-            className="absolute inset-0 rounded-full border-[3px] border-muted"
-          />
+          <div className="absolute inset-0 rounded-full border-[3px] border-muted" />
+
           {/* Spinning arc */}
           <div
             className={`absolute inset-0 rounded-full border-[3px] border-transparent border-t-primary ${
@@ -63,24 +65,29 @@ export const InjectionOverlay = ({ gameType, onComplete }: InjectionOverlayProps
             }`}
             style={{
               animationDuration: "1s",
-              boxShadow: currentStep >= steps.length
-                ? "0 0 20px hsl(142 76% 36% / 0.5)"
-                : "0 0 15px hsl(235 86% 65% / 0.4)",
-              borderTopColor: currentStep >= steps.length
-                ? "hsl(142, 76%, 36%)"
-                : undefined,
+              boxShadow:
+                currentStep >= steps.length
+                  ? "0 0 20px hsl(142 76% 36% / 0.5)"
+                  : "0 0 15px hsl(235 86% 65% / 0.4)",
+              borderTopColor:
+                currentStep >= steps.length
+                  ? "hsl(142, 76%, 36%)"
+                  : undefined,
             }}
           />
+
           {/* Center dot */}
           <div
             className="absolute top-1/2 left-1/2 w-3 h-3 -translate-x-1/2 -translate-y-1/2 rounded-full transition-colors duration-500"
             style={{
-              backgroundColor: currentStep >= steps.length
-                ? "hsl(142, 76%, 36%)"
-                : "hsl(235, 86%, 65%)",
-              boxShadow: currentStep >= steps.length
-                ? "0 0 10px hsl(142 76% 36% / 0.6)"
-                : "0 0 10px hsl(235 86% 65% / 0.6)",
+              backgroundColor:
+                currentStep >= steps.length
+                  ? "hsl(142, 76%, 36%)"
+                  : "hsl(235, 86%, 65%)",
+              boxShadow:
+                currentStep >= steps.length
+                  ? "0 0 10px hsl(142 76% 36% / 0.6)"
+                  : "0 0 10px hsl(235 86% 65% / 0.6)",
             }}
           />
         </div>
@@ -89,9 +96,10 @@ export const InjectionOverlay = ({ gameType, onComplete }: InjectionOverlayProps
         <p
           className="text-lg font-semibold tracking-wide transition-all duration-300"
           style={{
-            color: currentStep >= steps.length
-              ? "hsl(142, 76%, 36%)"
-              : "hsl(var(--foreground))",
+            color:
+              currentStep >= steps.length
+                ? "hsl(142, 76%, 36%)"
+                : "hsl(var(--foreground))",
           }}
         >
           {displayLabel}
@@ -105,16 +113,15 @@ export const InjectionOverlay = ({ gameType, onComplete }: InjectionOverlayProps
               className="w-2 h-2 rounded-full transition-all duration-500"
               style={{
                 backgroundColor:
-                  i < currentStep
-                    ? "hsl(235, 86%, 65%)"
-                    : i === currentStep
+                  i <= currentStep
                     ? "hsl(235, 86%, 65%)"
                     : "hsl(228, 12%, 22%)",
                 boxShadow:
                   i <= currentStep
                     ? "0 0 6px hsl(235 86% 65% / 0.5)"
                     : "none",
-                transform: i === currentStep ? "scale(1.3)" : "scale(1)",
+                transform:
+                  i === currentStep ? "scale(1.3)" : "scale(1)",
               }}
             />
           ))}

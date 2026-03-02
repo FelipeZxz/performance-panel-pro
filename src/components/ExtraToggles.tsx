@@ -19,7 +19,7 @@ interface ExtraTogglesProps {
   onToggle: (id: string, value: boolean) => void;
 }
 
-export const ExtraToggles = ({ active, onToggle }: ExtraTogglesProps) => {
+export const ExtraToggles = ({ active = {}, onToggle }: ExtraTogglesProps) => {
   const handleToggle = (id: string, label: string, val: boolean) => {
     onToggle(id, val);
     toast.success(val ? `${label} ativado` : `${label} desativado`);

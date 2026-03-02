@@ -157,7 +157,7 @@ export const InjectionScreen = ({ gameType, onComplete }: InjectionScreenProps) 
               className="text-muted-foreground text-xs mt-2"
               style={{ animation: "fade-in 0.5s ease-out 0.7s both" }}
             >
-              Atualize a página para voltar ao menu
+              mantenha aberto em segundo plano para um resultado melhor
             </p>
           </div>
         )}

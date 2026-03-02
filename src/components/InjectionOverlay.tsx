@@ -23,18 +23,23 @@ export const InjectionOverlay = ({ gameType, onComplete }: InjectionOverlayProps
       setCurrentStep(next);
 
       if (next >= steps.length) {
-        // Abrir o jogo direto via intent Android
         setTimeout(() => {
           const packageName =
             gameType === "normal"
               ? "com.dts.freefireth"
               : "com.dts.freefiremax";
 
-          const intentUrl = `intent://#Intent;package=${packageName};end`;
+          // Intent Android mais compatível
+          const intentUrl = `intent://#Intent;scheme=android-app;package=${packageName};end`;
 
-          window.location.href = intentUrl;
+          // Abrir o jogo
+          window.location.assign(intentUrl);
 
-          onComplete();
+          // Esperar o Android processar antes de desmontar o overlay
+          setTimeout(() => {
+            onComplete();
+          }, 1500);
+
         }, 600);
       }
     }, steps[currentStep].duration);
@@ -49,16 +54,12 @@ export const InjectionOverlay = ({ gameType, onComplete }: InjectionOverlayProps
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center">
-      {/* Dark overlay */}
       <div className="absolute inset-0 bg-background/60 backdrop-blur-sm" />
 
       <div className="relative z-10 flex flex-col items-center gap-6">
-        {/* Spinning circle */}
         <div className="relative w-24 h-24">
-          {/* Outer ring */}
           <div className="absolute inset-0 rounded-full border-[3px] border-muted" />
 
-          {/* Spinning arc */}
           <div
             className={`absolute inset-0 rounded-full border-[3px] border-transparent border-t-primary ${
               currentStep < steps.length ? "animate-spin" : ""
@@ -76,7 +77,6 @@ export const InjectionOverlay = ({ gameType, onComplete }: InjectionOverlayProps
             }}
           />
 
-          {/* Center dot */}
           <div
             className="absolute top-1/2 left-1/2 w-3 h-3 -translate-x-1/2 -translate-y-1/2 rounded-full transition-colors duration-500"
             style={{
@@ -92,7 +92,6 @@ export const InjectionOverlay = ({ gameType, onComplete }: InjectionOverlayProps
           />
         </div>
 
-        {/* Status text */}
         <p
           className="text-lg font-semibold tracking-wide transition-all duration-300"
           style={{
@@ -105,7 +104,6 @@ export const InjectionOverlay = ({ gameType, onComplete }: InjectionOverlayProps
           {displayLabel}
         </p>
 
-        {/* Step indicators */}
         <div className="flex gap-2">
           {steps.map((_, i) => (
             <div

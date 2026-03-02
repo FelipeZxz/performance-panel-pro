@@ -157,7 +157,7 @@ export const InjectionScreen = ({ gameType, onComplete }: InjectionScreenProps) 
               className="text-muted-foreground text-xs mt-2"
               style={{ animation: "fade-in 0.5s ease-out 0.7s both" }}
             >
-              auxílio rodando em segundo plano!
+              auxílio rodando em segundo plano
             </p>
           </div>
         )}

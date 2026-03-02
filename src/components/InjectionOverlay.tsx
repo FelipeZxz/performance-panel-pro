@@ -5,7 +5,6 @@ interface InjectionOverlayProps {
   onComplete: () => void;
 }
 
-// Configuração dos passos e tempos (Total aprox: 5 segundos)
 const steps = [
   { label: "Processando...", duration: 1500 },
   { label: "Injetando Bypass...", duration: 1800 },
@@ -17,7 +16,6 @@ export const InjectionOverlay = ({ gameType, onComplete }: InjectionOverlayProps
   const [currentStep, setCurrentStep] = useState(0);
 
   useEffect(() => {
-    // 1. Controle da troca de textos (Animação)
     if (currentStep < steps.length) {
       const timer = setTimeout(() => {
         setCurrentStep((prev) => prev + 1);
@@ -25,29 +23,31 @@ export const InjectionOverlay = ({ gameType, onComplete }: InjectionOverlayProps
       return () => clearTimeout(timer);
     }
 
-    // 2. Quando chegar ao fim do último passo (Sucesso!)
     if (currentStep === steps.length) {
+      // FUNÇÃO DE DISPARO REFORÇADA
       const launchGame = () => {
-        const packageName =
-          gameType === "normal"
-            ? "com.dts.freefireth"
-            : "com.dts.freefiremax";
-
-        // Intent específica para Android abrir o app direto
+        const packageName = gameType === "normal" ? "com.dts.freefireth" : "com.dts.freefiremax";
+        
+        // Tentamos o esquema direto primeiro (mais agressivo)
         const intentUrl = `intent://#Intent;scheme=android-app;package=${packageName};end`;
         
-        // Tenta o redirecionamento automático
-        window.location.href = intentUrl;
+        // Criamos um link invisível e simulamos o clique para tentar burlar o bloqueio do Chrome
+        const link = document.createElement("a");
+        link.href = intentUrl;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
 
-        // Fecha o overlay após a tentativa
+        // Se o link falhar, tentamos o location direto como backup
         setTimeout(() => {
-          onComplete();
-        }, 1000);
+          window.location.replace(intentUrl);
+        }, 100);
+
+        // Finaliza o overlay
+        setTimeout(onComplete, 1500);
       };
 
-      // Pequeno delay após o texto "Sucesso!" aparecer para disparar o jogo
-      const finalTimer = setTimeout(launchGame, 800);
-      return () => clearTimeout(finalTimer);
+      launchGame();
     }
   }, [currentStep, gameType, onComplete]);
 
@@ -56,51 +56,35 @@ export const InjectionOverlay = ({ gameType, onComplete }: InjectionOverlayProps
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center">
-      {/* Fundo escurecido com desfoque */}
       <div className="absolute inset-0 bg-zinc-950/90 backdrop-blur-md" />
-
       <div className="relative z-10 flex flex-col items-center gap-8 px-6">
-        {/* Loader Circular */}
+        {/* Loader */}
         <div className="relative w-28 h-28">
           <div className="absolute inset-0 rounded-full border-[4px] border-zinc-800" />
           <div
             className={`absolute inset-0 rounded-full border-[4px] border-transparent border-t-primary transition-all duration-700 ${
               !isFinished ? "animate-spin" : "border-green-500 rotate-[360deg]"
             }`}
-            style={{
-              boxShadow: isFinished ? "0 0 30px rgba(34, 197, 94, 0.4)" : "0 0 20px rgba(99, 102, 241, 0.3)",
-            }}
           />
           <div className={`absolute top-1/2 left-1/2 w-4 h-4 -translate-x-1/2 -translate-y-1/2 rounded-full transition-colors duration-500 ${
             isFinished ? "bg-green-500 shadow-[0_0_15px_#22c55e]" : "bg-primary"
           }`} />
         </div>
 
-        {/* Texto de Status */}
+        {/* Texto */}
         <div className="text-center space-y-2">
-          <h2
-            className="text-2xl font-black tracking-tighter uppercase transition-all duration-500"
-            style={{ color: isFinished ? "#22c55e" : "white" }}
-          >
+          <h2 className="text-2xl font-black tracking-tighter uppercase transition-all duration-500"
+              style={{ color: isFinished ? "#22c55e" : "white" }}>
             {displayLabel}
           </h2>
-          {isFinished && (
-            <p className="text-zinc-400 text-sm font-medium animate-pulse">
-              ABRINDO O JOGO...
-            </p>
-          )}
+          {isFinished && <p className="text-zinc-400 text-sm font-medium animate-pulse">ABRINDO FREE FIRE...</p>}
         </div>
 
-        {/* Indicador de Progresso (Barrinhas) */}
+        {/* Barras de Progresso */}
         <div className="flex gap-1.5">
           {steps.map((_, i) => (
-            <div
-              key={i}
-              className="w-10 h-1 rounded-full transition-all duration-500"
-              style={{
-                backgroundColor: i <= currentStep ? (isFinished ? "#22c55e" : "#6366f1") : "#27272a",
-                transform: i === currentStep && !isFinished ? "scaleY(1.5)" : "scaleY(1)"
-              }}
+            <div key={i} className="w-10 h-1 rounded-full transition-all duration-500"
+              style={{ backgroundColor: i <= currentStep ? (isFinished ? "#22c55e" : "#6366f1") : "#27272a" }}
             />
           ))}
         </div>

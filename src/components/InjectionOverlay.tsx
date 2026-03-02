@@ -5,121 +5,101 @@ interface InjectionOverlayProps {
   onComplete: () => void;
 }
 
+// Configuração dos passos e tempos (Total aprox: 5 segundos)
 const steps = [
   { label: "Processando...", duration: 1500 },
-  { label: "Injetando Bypass...", duration: 2000 },
-  { label: "Otimizando...", duration: 1500 },
-  { label: "Sucesso!", duration: 1200 },
+  { label: "Injetando Bypass...", duration: 1800 },
+  { label: "Otimizando...", duration: 1200 },
+  { label: "Sucesso!", duration: 1000 },
 ];
 
 export const InjectionOverlay = ({ gameType, onComplete }: InjectionOverlayProps) => {
   const [currentStep, setCurrentStep] = useState(0);
 
   useEffect(() => {
-    if (currentStep >= steps.length) return;
+    // 1. Controle da troca de textos (Animação)
+    if (currentStep < steps.length) {
+      const timer = setTimeout(() => {
+        setCurrentStep((prev) => prev + 1);
+      }, steps[currentStep].duration);
+      return () => clearTimeout(timer);
+    }
 
-    const timer = setTimeout(() => {
-      const next = currentStep + 1;
-      setCurrentStep(next);
+    // 2. Quando chegar ao fim do último passo (Sucesso!)
+    if (currentStep === steps.length) {
+      const launchGame = () => {
+        const packageName =
+          gameType === "normal"
+            ? "com.dts.freefireth"
+            : "com.dts.freefiremax";
 
-      if (next >= steps.length) {
+        // Intent específica para Android abrir o app direto
+        const intentUrl = `intent://#Intent;scheme=android-app;package=${packageName};end`;
+        
+        // Tenta o redirecionamento automático
+        window.location.href = intentUrl;
+
+        // Fecha o overlay após a tentativa
         setTimeout(() => {
-          const packageName =
-            gameType === "normal"
-              ? "com.dts.freefireth"
-              : "com.dts.freefiremax";
+          onComplete();
+        }, 1000);
+      };
 
-          // Intent Android mais compatível
-          const intentUrl = `intent://#Intent;scheme=android-app;package=${packageName};end`;
-
-          // Abrir o jogo
-          window.location.assign(intentUrl);
-
-          // Esperar o Android processar antes de desmontar o overlay
-          setTimeout(() => {
-            onComplete();
-          }, 1500);
-
-        }, 600);
-      }
-    }, steps[currentStep].duration);
-
-    return () => clearTimeout(timer);
+      // Pequeno delay após o texto "Sucesso!" aparecer para disparar o jogo
+      const finalTimer = setTimeout(launchGame, 800);
+      return () => clearTimeout(finalTimer);
+    }
   }, [currentStep, gameType, onComplete]);
 
-  const displayLabel =
-    currentStep < steps.length
-      ? steps[currentStep].label
-      : "Sucesso!";
+  const isFinished = currentStep >= steps.length;
+  const displayLabel = isFinished ? "Sucesso!" : steps[currentStep]?.label;
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center">
-      <div className="absolute inset-0 bg-background/60 backdrop-blur-sm" />
+      {/* Fundo escurecido com desfoque */}
+      <div className="absolute inset-0 bg-zinc-950/90 backdrop-blur-md" />
 
-      <div className="relative z-10 flex flex-col items-center gap-6">
-        <div className="relative w-24 h-24">
-          <div className="absolute inset-0 rounded-full border-[3px] border-muted" />
-
+      <div className="relative z-10 flex flex-col items-center gap-8 px-6">
+        {/* Loader Circular */}
+        <div className="relative w-28 h-28">
+          <div className="absolute inset-0 rounded-full border-[4px] border-zinc-800" />
           <div
-            className={`absolute inset-0 rounded-full border-[3px] border-transparent border-t-primary ${
-              currentStep < steps.length ? "animate-spin" : ""
+            className={`absolute inset-0 rounded-full border-[4px] border-transparent border-t-primary transition-all duration-700 ${
+              !isFinished ? "animate-spin" : "border-green-500 rotate-[360deg]"
             }`}
             style={{
-              animationDuration: "1s",
-              boxShadow:
-                currentStep >= steps.length
-                  ? "0 0 20px hsl(142 76% 36% / 0.5)"
-                  : "0 0 15px hsl(235 86% 65% / 0.4)",
-              borderTopColor:
-                currentStep >= steps.length
-                  ? "hsl(142, 76%, 36%)"
-                  : undefined,
+              boxShadow: isFinished ? "0 0 30px rgba(34, 197, 94, 0.4)" : "0 0 20px rgba(99, 102, 241, 0.3)",
             }}
           />
-
-          <div
-            className="absolute top-1/2 left-1/2 w-3 h-3 -translate-x-1/2 -translate-y-1/2 rounded-full transition-colors duration-500"
-            style={{
-              backgroundColor:
-                currentStep >= steps.length
-                  ? "hsl(142, 76%, 36%)"
-                  : "hsl(235, 86%, 65%)",
-              boxShadow:
-                currentStep >= steps.length
-                  ? "0 0 10px hsl(142 76% 36% / 0.6)"
-                  : "0 0 10px hsl(235 86% 65% / 0.6)",
-            }}
-          />
+          <div className={`absolute top-1/2 left-1/2 w-4 h-4 -translate-x-1/2 -translate-y-1/2 rounded-full transition-colors duration-500 ${
+            isFinished ? "bg-green-500 shadow-[0_0_15px_#22c55e]" : "bg-primary"
+          }`} />
         </div>
 
-        <p
-          className="text-lg font-semibold tracking-wide transition-all duration-300"
-          style={{
-            color:
-              currentStep >= steps.length
-                ? "hsl(142, 76%, 36%)"
-                : "hsl(var(--foreground))",
-          }}
-        >
-          {displayLabel}
-        </p>
+        {/* Texto de Status */}
+        <div className="text-center space-y-2">
+          <h2
+            className="text-2xl font-black tracking-tighter uppercase transition-all duration-500"
+            style={{ color: isFinished ? "#22c55e" : "white" }}
+          >
+            {displayLabel}
+          </h2>
+          {isFinished && (
+            <p className="text-zinc-400 text-sm font-medium animate-pulse">
+              ABRINDO O JOGO...
+            </p>
+          )}
+        </div>
 
-        <div className="flex gap-2">
+        {/* Indicador de Progresso (Barrinhas) */}
+        <div className="flex gap-1.5">
           {steps.map((_, i) => (
             <div
               key={i}
-              className="w-2 h-2 rounded-full transition-all duration-500"
+              className="w-10 h-1 rounded-full transition-all duration-500"
               style={{
-                backgroundColor:
-                  i <= currentStep
-                    ? "hsl(235, 86%, 65%)"
-                    : "hsl(228, 12%, 22%)",
-                boxShadow:
-                  i <= currentStep
-                    ? "0 0 6px hsl(235 86% 65% / 0.5)"
-                    : "none",
-                transform:
-                  i === currentStep ? "scale(1.3)" : "scale(1)",
+                backgroundColor: i <= currentStep ? (isFinished ? "#22c55e" : "#6366f1") : "#27272a",
+                transform: i === currentStep && !isFinished ? "scaleY(1.5)" : "scaleY(1)"
               }}
             />
           ))}

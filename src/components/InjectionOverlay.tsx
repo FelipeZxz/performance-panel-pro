@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { AppLauncher } from "@capacitor/app-launcher";
 
 interface InjectionOverlayProps {
   gameType: "normal" | "max";

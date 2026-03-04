@@ -82,6 +82,20 @@ export const InjectionOverlay = ({ gameType, onComplete }: InjectionOverlayProps
             />
           ))}
         </div>
+
+        {isFinished && (
+          <button
+            onClick={() => {
+              const link = gameType === "max"
+                ? "intent://#Intent;package=com.dts.freefiremax;scheme=market;end"
+                : "intent://#Intent;package=com.dts.freefireth;scheme=market;end";
+              window.location.href = link;
+            }}
+            className="mt-2 px-8 py-3 rounded-lg bg-green-500 text-zinc-950 font-bold text-base uppercase tracking-wider shadow-[0_0_20px_rgba(34,197,94,0.5)] hover:bg-green-400 transition-all duration-300"
+          >
+            Abrir Jogo
+          </button>
+        )}
       </div>
     </div>
   );

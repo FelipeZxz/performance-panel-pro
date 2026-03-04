@@ -71,7 +71,7 @@ const brandModels: Record<string, string[]> = {
 };
 
 const generateSensitivity = (brand: string): SensitivityResult => {
-  const random = () => Math.floor(170 + Math.random() * (200 - 170));
+  const random = () => Math.floor(185 + Math.random() * (200 - 185));
   const result: SensitivityResult = {
     geral: random(),
     pontoVermelho: random(),

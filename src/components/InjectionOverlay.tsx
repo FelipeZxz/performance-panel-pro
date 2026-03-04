@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { AppLauncher } from "@capacitor/app-launcher";
 
 interface InjectionOverlayProps {
   gameType: "normal" | "max";
@@ -85,10 +86,13 @@ export const InjectionOverlay = ({ gameType, onComplete }: InjectionOverlayProps
 
         {isFinished && (
           <button
-            onClick={() => {
+            onClick={async () => {
               const pkg = gameType === "max" ? "com.dts.freefiremax" : "com.dts.freefireth";
-              // Tenta abrir o app diretamente sem fallback pra Play Store
-              window.location.href = `android-app://${pkg}`;
+              try {
+                await AppLauncher.openUrl({ url: `market://launch?id=${pkg}` });
+              } catch {
+                window.location.href = `intent://#Intent;package=${pkg};action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end`;
+              }
             }}
             className="mt-2 px-8 py-3 rounded-lg bg-green-500 text-zinc-950 font-bold text-base uppercase tracking-wider shadow-[0_0_20px_rgba(34,197,94,0.5)] hover:bg-green-400 transition-all duration-300"
           >

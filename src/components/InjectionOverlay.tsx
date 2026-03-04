@@ -86,10 +86,9 @@ export const InjectionOverlay = ({ gameType, onComplete }: InjectionOverlayProps
         {isFinished && (
           <button
             onClick={() => {
-              const link = gameType === "max"
-                ? "intent://launch#Intent;package=com.dts.freefiremax;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end"
-                : "intent://launch#Intent;package=com.dts.freefireth;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end";
-              window.location.href = link;
+              const pkg = gameType === "max" ? "com.dts.freefiremax" : "com.dts.freefireth";
+              // Tenta abrir o app diretamente sem fallback pra Play Store
+              window.location.href = `android-app://${pkg}`;
             }}
             className="mt-2 px-8 py-3 rounded-lg bg-green-500 text-zinc-950 font-bold text-base uppercase tracking-wider shadow-[0_0_20px_rgba(34,197,94,0.5)] hover:bg-green-400 transition-all duration-300"
           >

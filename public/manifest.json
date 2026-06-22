@@ -1,7 +1,7 @@
 {
-  "name": "Discord",
-  "short_name": "Discord",
-  "description": "Assistente de mira para Free Fire",
+  "name": "Proxy Android",
+  "short_name": "Proxy",
+  "description": "Proxy Android - Painel de performance",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { FPSBadge } from "./FPSBadge";
 import { PerformanceMonitor } from "./PerformanceMonitor";
-import { SensitivityGenerator } from "./SensitivityGenerator";
 import { ExtraToggles } from "./ExtraToggles";
 import { ActionButtons } from "./ActionButtons";
 
@@ -19,7 +18,6 @@ export const DashboardPanel = ({ onLogout }: DashboardPanelProps) => {
       <div className="max-w-md mx-auto space-y-4">
         <PerformanceMonitor maxFPS={selectedFPS} />
         <FPSBadge selectedFPS={selectedFPS} onFPSChange={setSelectedFPS} />
-        <SensitivityGenerator />
         <ExtraToggles active={extraActive} onToggle={(id, val) => setExtraActive(prev => ({ ...prev, [id]: val }))} />
         <ActionButtons onLogout={onLogout} onInjectStart={() => setInjecting(true)} onInjectEnd={() => setInjecting(false)} />
       </div>

@@ -125,7 +125,7 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
 
           {/* Title */}
           <h1 className="text-center text-foreground font-bold text-xl tracking-wider mb-1">
-            WINK EXTERNAL
+            PROXY ANDROID
           </h1>
           <p className="text-center text-muted-foreground text-sm mb-6">
             Insira sua chave de acesso

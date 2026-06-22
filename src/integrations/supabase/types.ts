@@ -10,36 +10,83 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "13.0.5"
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
+      access_keys: {
+        Row: {
+          created_at: string
+          duration_minutes: number
+          expires_at: string | null
+          id: string
+          is_active: boolean
+          key_value: string
+          label: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          duration_minutes?: number
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean
+          key_value: string
+          label?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          duration_minutes?: number
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean
+          key_value?: string
+          label?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       auth_sessions: {
         Row: {
+          access_key_id: string | null
           created_at: string
           expires_at: string
           id: string
           ip_address: string | null
+          is_admin: boolean
           session_token: string
           user_agent: string | null
         }
         Insert: {
+          access_key_id?: string | null
           created_at?: string
           expires_at: string
           id?: string
           ip_address?: string | null
+          is_admin?: boolean
           session_token: string
           user_agent?: string | null
         }
         Update: {
+          access_key_id?: string | null
           created_at?: string
           expires_at?: string
           id?: string
           ip_address?: string | null
+          is_admin?: boolean
           session_token?: string
           user_agent?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "auth_sessions_access_key_id_fkey"
+            columns: ["access_key_id"]
+            isOneToOne: false
+            referencedRelation: "access_keys"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       rate_limits: {
         Row: {

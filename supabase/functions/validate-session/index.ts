@@ -64,7 +64,7 @@ serve(async (req) => {
     }
 
     return new Response(
-      JSON.stringify({ valid: true, expiresAt: session.expires_at }),
+      JSON.stringify({ valid: true, expiresAt: session.expires_at, isAdmin: !!session.is_admin }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (err) {

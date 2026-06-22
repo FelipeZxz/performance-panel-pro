@@ -3,62 +3,29 @@ import { supabase } from "@/integrations/supabase/client";
 
 const SESSION_KEY = "naxx_session_token";
 const SESSION_EXPIRY_KEY = "naxx_session_expiry";
+const SESSION_ADMIN_KEY = "naxx_session_is_admin";
 
 interface AuthState {
   isAuthenticated: boolean;
+  isAdmin: boolean;
   isLoading: boolean;
+  sessionToken: string | null;
 }
 
 export const useAuth = () => {
   const [authState, setAuthState] = useState<AuthState>({
     isAuthenticated: false,
+    isAdmin: false,
     isLoading: true,
+    sessionToken: null,
   });
-
-  // Validate session on mount and periodically
-  const validateSession = useCallback(async () => {
-    const sessionToken = sessionStorage.getItem(SESSION_KEY);
-    const sessionExpiry = sessionStorage.getItem(SESSION_EXPIRY_KEY);
-
-    if (!sessionToken || !sessionExpiry) {
-      setAuthState({ isAuthenticated: false, isLoading: false });
-      return false;
-    }
-
-    // Quick client-side expiry check
-    if (new Date(sessionExpiry) < new Date()) {
-      sessionStorage.removeItem(SESSION_KEY);
-      sessionStorage.removeItem(SESSION_EXPIRY_KEY);
-      setAuthState({ isAuthenticated: false, isLoading: false });
-      return false;
-    }
-
-    try {
-      // Server-side validation
-      const { data, error } = await supabase.functions.invoke("validate-session", {
-        body: { sessionToken },
-      });
-
-      if (error || !data?.valid) {
-        sessionStorage.removeItem(SESSION_KEY);
-        sessionStorage.removeItem(SESSION_EXPIRY_KEY);
-        setAuthState({ isAuthenticated: false, isLoading: false });
-        return false;
-      }
-
-      setAuthState({ isAuthenticated: true, isLoading: false });
-      return true;
-    } catch {
-      setAuthState({ isAuthenticated: false, isLoading: false });
-      return false;
-    }
-  }, []);
 
   // Clear session on page load to force re-login
   useEffect(() => {
     sessionStorage.removeItem(SESSION_KEY);
     sessionStorage.removeItem(SESSION_EXPIRY_KEY);
-    setAuthState({ isAuthenticated: false, isLoading: false });
+    sessionStorage.removeItem(SESSION_ADMIN_KEY);
+    setAuthState({ isAuthenticated: false, isAdmin: false, isLoading: false, sessionToken: null });
   }, []);
 
   const login = async (key: string): Promise<{ success: boolean; error?: string }> => {
@@ -67,50 +34,49 @@ export const useAuth = () => {
         body: { key },
       });
 
-      if (error) {
-        return { success: false, error: "Connection error" };
-      }
-
-      if (data?.rateLimited) {
-        return { success: false, error: data.error };
-      }
+      if (error) return { success: false, error: "Erro de conexão" };
+      if (data?.rateLimited) return { success: false, error: data.error };
 
       if (data?.valid && data?.sessionToken) {
         sessionStorage.setItem(SESSION_KEY, data.sessionToken);
         sessionStorage.setItem(SESSION_EXPIRY_KEY, data.expiresAt);
-        setAuthState({ isAuthenticated: true, isLoading: false });
+        sessionStorage.setItem(SESSION_ADMIN_KEY, data.isAdmin ? "1" : "0");
+        setAuthState({
+          isAuthenticated: true,
+          isAdmin: !!data.isAdmin,
+          isLoading: false,
+          sessionToken: data.sessionToken,
+        });
         return { success: true };
       }
 
-      return { success: false, error: "Invalid key" };
+      return { success: false, error: data?.error || "Chave inválida" };
     } catch {
-      return { success: false, error: "Connection error" };
+      return { success: false, error: "Erro de conexão" };
     }
   };
 
   const logout = async () => {
     const sessionToken = sessionStorage.getItem(SESSION_KEY);
-
     if (sessionToken) {
       try {
-        await supabase.functions.invoke("logout", {
-          body: { sessionToken },
-        });
+        await supabase.functions.invoke("logout", { body: { sessionToken } });
       } catch {
-        // Ignore logout errors, still clear local state
+        // ignore
       }
     }
-
     sessionStorage.removeItem(SESSION_KEY);
     sessionStorage.removeItem(SESSION_EXPIRY_KEY);
-    setAuthState({ isAuthenticated: false, isLoading: false });
+    sessionStorage.removeItem(SESSION_ADMIN_KEY);
+    setAuthState({ isAuthenticated: false, isAdmin: false, isLoading: false, sessionToken: null });
   };
 
   return {
     isAuthenticated: authState.isAuthenticated,
+    isAdmin: authState.isAdmin,
     isLoading: authState.isLoading,
+    sessionToken: authState.sessionToken,
     login,
     logout,
-    validateSession,
   };
 };

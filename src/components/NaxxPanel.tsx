@@ -1,11 +1,12 @@
 import { useState, useCallback } from "react";
 import { LoginPage } from "./LoginPage";
 import { DashboardPanel } from "./DashboardPanel";
+import { AdminPanel } from "./AdminPanel";
 import { SplashScreen } from "./SplashScreen";
 import { useAuth } from "@/hooks/useAuth";
 
 export const NaxxPanel = () => {
-  const { isAuthenticated, isLoading, login, logout } = useAuth();
+  const { isAuthenticated, isAdmin, isLoading, sessionToken, login, logout } = useAuth();
   const [showSplash, setShowSplash] = useState(true);
 
   const handleSplashComplete = useCallback(() => {
@@ -26,6 +27,10 @@ export const NaxxPanel = () => {
 
   if (!isAuthenticated) {
     return <LoginPage onLogin={login} />;
+  }
+
+  if (isAdmin && sessionToken) {
+    return <AdminPanel sessionToken={sessionToken} onLogout={logout} />;
   }
 
   return <DashboardPanel onLogout={logout} />;
